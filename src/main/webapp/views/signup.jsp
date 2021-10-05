@@ -12,21 +12,24 @@
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<div class="container">
-		<form:form action="signup" method="post" modelAttribute="user">
-			<fieldset class="form-group">
-				<form:input path="email" />
-			</fieldset>
-			<fieldset class="form-group">
-				<form:password path="password"/>
-			</fieldset>
+	<div class="wrapper container">
+		<div id="formContent">
+			<h2 class="active"> Sign Up </h2>
+			<form:form action="signup" method="post" modelAttribute="user">
+				<fieldset class="form-group">
+					<form:input path="email" placeholder="email"/>
+				</fieldset>
+				<fieldset class="form-group">
+					<form:password path="password" placeholder="password"/>
+				</fieldset>
+				
+				<button type="submit" class="btn btn-success">Register</button>
+			</form:form>
 			
-			<button type="submit" class="btn btn-success">Register</button>
-		</form:form>
-
+			<h5> Already a user? <a href="/">Log In</a> </h5>
+		</div>
 	</div>
 	
-		<h5> Already a user? <a href="login">Log In</a> </h5>
 	
 	<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>

@@ -19,6 +19,8 @@ public class myController {
 	@Autowired
 	ApplicationService service;
 	
+	
+	
 	@RequestMapping(value="/")
 	public String login() {
 		return "login";
@@ -32,8 +34,9 @@ public class myController {
 	
 	@PostMapping("/signup")
 	public String register(@ModelAttribute("user") User userx, ModelMap model) {
-		service.registerUser(userx);
-
+		String pwdHash = service.getHash(userx.getPassword());
+		service.registerUser(new User(userx.getEmail(), pwdHash));
+		
 		return "redirect:/";
 	}
 }

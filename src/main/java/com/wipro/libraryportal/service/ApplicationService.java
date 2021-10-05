@@ -18,7 +18,7 @@ public class ApplicationService {
 		return true;
 	}
 	
-	public String createHash(String pwd) {
+	public String getHash(String pwd) {
 		return BCrypt.hashpw(pwd, BCrypt.gensalt());
 	}
 }
