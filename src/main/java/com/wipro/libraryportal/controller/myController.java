@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
+import com.wipro.libraryportal.service.UserService;
 
 
 @Controller
 public class myController {
 	
 	@Autowired
-	ApplicationService service;
+	ApplicationService applicationService;
+	
+	@Autowired
+	UserService userService;
 	
 	
 	
@@ -39,9 +41,32 @@ public class myController {
 	
 	@PostMapping("/signup")
 	public String register(@ModelAttribute("user") User userx, ModelMap model) {
-		String pwdHash = service.getHash(userx.getPassword());
-		service.registerUser(new User(userx.getEmail(), pwdHash));
-		return "redirect:/";
+		/* 
+		 	Check for email validity
+		  	redirect to sign-up page again if found invalid
+		*/
+		if(!applicationService.isValidEmail(userx.getEmail())) {
+			model.addAttribute("message", "Invalid email provided!");
+			return "signup";
+		}
+		
+		/*
+		 	Creating password hash to store into db
+		*/
+		String pwdHash = applicationService.getHash(userx.getPassword());
+		
+		if(userService.registerUser(new User(userx.getEmail(), pwdHash))) {
+			/* 
+			 	User registered successfully
+				redirecting to login page
+			*/
+			model.addAttribute("message", "User registered successfully");
+			return "login";
+		}
+		
+		// Something went wrong, user didn't got registered
+		model.addAttribute("message", "Username already taken!");
+		return "signup";
 	}
 	
 	@GetMapping(value="/login")
@@ -50,13 +75,14 @@ public class myController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest req) {
-		if(service.isValidUser(email, password)) {
-			req.getSession().setAttribute("USERNAME", email);
-			return "redirect:/welcome";
+	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap model, HttpServletRequest req) {
+		if(!userService.isValidUser(email, password)) {
+			model.addAttribute("message", "Invalid credential provided!");
+			return "login";
 		}
 		
-		return "redirect:/login";
+		req.getSession().setAttribute("USERNAME", email);
+		return "redirect:/welcome";
 	}
 	
 	@GetMapping("welcome")

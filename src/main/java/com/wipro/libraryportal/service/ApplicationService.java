@@ -1,40 +1,39 @@
 package com.wipro.libraryportal.service;
 
-import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
-import com.wipro.libraryportal.entity.User;
-import com.wipro.libraryportal.jpa.UserDao;
 
 @Component
 public class ApplicationService {
 	
-	@Autowired
-	private UserDao dao;
-	
-	public boolean registerUser(User user) {
-		if(dao.existsById(user.getEmail())) {
-			return false;
-		}
-		dao.save(user);
-		return true;
-	}
-	
-	public boolean isValidUser(String email, String pwd) {
-		Optional<User> user =  dao.findById(email);
-		if(user.isPresent()) {
-			if(BCrypt.checkpw(pwd, user.get().getPassword())) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	public String getHash(String pwd) {
 		return BCrypt.hashpw(pwd, BCrypt.gensalt());
+	}
+	
+	public boolean isValidEmail(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                            "[a-zA-Z0-9_+&*-]+)*@" +
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                            "A-Z]{2,7}$";
+                              
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+	
+	public void wait2sec() {
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
