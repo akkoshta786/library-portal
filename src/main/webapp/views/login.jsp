@@ -1,28 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+<%@include file="common/header.jspf" %>
 <title>LOGIN</title>
 <link rel="stylesheet" href="../css/main.css">
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<div class="wrapper">
+<body>
+	<div class="wrapper container">
 	  <div id="formContent">
-	    <!-- Tabs Titles -->
+	 
 	    <h2 class="active"> Sign In </h2>
 	
-
-	    <form method="post">
-	      <input type="text" id="username" placeholder="username">
-	      <input type="password" id="password" placeholder="password">
-	      <input type="submit" value="Log In">
-	    </form>
-	    
+		<form action="login" method="post">
+			<fieldset class="form-group">
+				<input type="text" name="email" class="form-control-plaintext" placeholder="email" />
+			</fieldset>
+			<fieldset class="form-group">
+				<input type="password" name="password" class="form-control-plaintext" placeholder="password" required="required"/>
+			</fieldset>
+			
+			<button type="submit" class="btn btn-success">Log In</button>
+		</form>
+	    <br>
 	    <h5>New User? <a href="signup">Sign up</a></h5>
 	
-	    <!-- Remind Passowrd -->
+	    
 	    <div id="formFooter">
 	      <a class="underlineHover" href="#">Forgot Password?</a>
 	    </div>
