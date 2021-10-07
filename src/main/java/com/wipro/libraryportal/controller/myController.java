@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
+import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.UserService;
 
 
@@ -25,6 +27,9 @@ public class myController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	BookService bookService;
 	
 	
 	
@@ -76,17 +81,23 @@ public class myController {
 	
 	@PostMapping("/login")
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap model, HttpServletRequest req) {
+		/*
+		 	if the user is invalid, redirect to login
+		 	else, create session and redirect to home page
+		 */
 		if(!userService.isValidUser(email, password)) {
 			model.addAttribute("message", "Invalid credential provided!");
 			return "login";
 		}
 		
 		req.getSession().setAttribute("USERNAME", email);
+		req.getSession().setAttribute("ADMIN", userService.isAdmin(email));
 		return "redirect:/welcome";
 	}
 	
 	@GetMapping("welcome")
-	private String showWelcomePage() {
+	private String showWelcomePage(ModelMap model) {
+		model.addAttribute("booksList", bookService.getAllBooks());
 		return "welcome";
 	}
 

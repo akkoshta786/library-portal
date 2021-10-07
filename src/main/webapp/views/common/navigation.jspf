@@ -1,3 +1,8 @@
+<%
+	String session_username = (String)request.getSession().getAttribute("USERNAME");
+	boolean session_privilage = (boolean)request.getSession().getAttribute("ADMIN");
+%>
+
 <title>Insert title here</title>
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 
@@ -11,13 +16,21 @@
 	    	<li class="nav-item active">
 	        	<a class="nav-link" href="/welcome">Home <span class="sr-only">(current)</span></a>
 	      	</li>
+	      	<%
+	      		if(!session_privilage){
+	      			out.println("<li class='nav-item active'>"); 
+	      		    out.println("<a class='nav-link' href='#'>Issued <span class='sr-only'></span></a>");
+	      			out.println("</li>");
+	      		}
+	      	%>
+	      	
 	    </ul>
 	</div>
 	 
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<ul class="nav navbar-nav navbar-right">
-		    	<li><h6> <% out.print(request.getSession().getAttribute("USERNAME")); %> <span class="badge badge-secondary"></span>&emsp; </h6></li>
+		    	<li><h6> <% out.print(session_username); %> <span class="badge badge-secondary"></span>&emsp; </h6></li>
 		    </ul>
 			<ul class="nav navbar-nav navbar-right">
 		    	<li><a class="btn btn-primary" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>

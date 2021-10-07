@@ -31,4 +31,9 @@ public class UserService {
 		}
 		return false;
 	}
+	
+	public boolean isAdmin(String email) {
+		Optional<User> user = dao.findById(email);
+		return user.get().isAdmin();
+	}
 }
