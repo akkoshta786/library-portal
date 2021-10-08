@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wipro.libraryportal.entity.Book;
@@ -65,7 +66,7 @@ public class myController {
 			 	User registered successfully
 				redirecting to login page
 			*/
-			model.addAttribute("message", "User registered successfully");
+			model.addAttribute("message", "User registered successfully. Sign in to access portal");
 			return "login";
 		}
 		
@@ -99,6 +100,12 @@ public class myController {
 	private String showWelcomePage(ModelMap model) {
 		model.addAttribute("booksList", bookService.getAllBooks());
 		return "welcome";
+	}
+	
+	@RequestMapping(value="postBook", method = RequestMethod.POST, produces = "application/json")
+	public String addBook(@RequestParam String isbn, @RequestParam String title, @RequestParam String author, @RequestParam String publisher, @RequestParam String language, @RequestParam String numberOfPages, @RequestParam String copies) {
+		bookService.addBook(new Book(isbn.replace("-", ""), title, author, publisher, language, Integer.parseInt(numberOfPages), Integer.parseInt(copies)));
+		return "Book added successfully";
 	}
 
 }

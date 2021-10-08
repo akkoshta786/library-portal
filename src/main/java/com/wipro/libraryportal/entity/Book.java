@@ -2,23 +2,19 @@ package com.wipro.libraryportal.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Book {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@NotNull
 	private String isbn;
 	
 	@NotNull
 	private String title;
 	
+	@NotNull
+	private String author;
 	
 	@NotNull
 	private String publisher;
@@ -30,8 +26,8 @@ public class Book {
 	private int numberOfPages;
 	
 	@NotNull
-	@Column(columnDefinition = "integer default 0")
-	private int status;
+	private int copies;
+	
 	
 	@Column(nullable = true)
 	private String issuedBy;
@@ -42,32 +38,28 @@ public class Book {
 	}
 	
 
-	public Book(@NotNull String iSBN, @NotNull String title, @NotNull String publisher,
-			@NotNull String language, @NotNull int numberOfPages) {
+	public Book(String isbn, @NotNull String title, @NotNull String author, @NotNull String publisher,
+			@NotNull String language, @NotNull int numberOfPages, @NotNull int copies) {
 		super();
-		isbn = iSBN;
+		this.isbn = isbn;
 		this.title = title;
+		this.author = author;
 		this.publisher = publisher;
 		this.language = language;
 		this.numberOfPages = numberOfPages;
+		this.copies = copies;
 	}
 
 
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getISBN() {
+	public String getIsbn() {
 		return isbn;
 	}
 
-	public void setISBN(String iSBN) {
-		isbn = iSBN;
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getTitle() {
@@ -76,6 +68,16 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+	public String getAuthor() {
+		return author;
+	}
+
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 
@@ -102,14 +104,17 @@ public class Book {
 	public void setNumberOfPages(int numberOfPages) {
 		this.numberOfPages = numberOfPages;
 	}
+	
 
-	public int getStatus() {
-		return status;
+	public int getCopies() {
+		return copies;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+
+	public void setCopies(int copies) {
+		this.copies = copies;
 	}
+
 
 	public String getIssuedBy() {
 		return issuedBy;
@@ -122,11 +127,10 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", publisher=" + publisher + ", language="
-				+ language + ", numberOfPages=" + numberOfPages + "]";
+		return "Book [isbn=" + isbn + ", title=" + title + ", author=" + author + ", publisher=" + publisher
+				+ ", language=" + language + ", numberOfPages=" + numberOfPages + ", copies=" + copies + ", issuedBy="
+				+ issuedBy + "]";
 	}
-
-	
 	
 	
 }

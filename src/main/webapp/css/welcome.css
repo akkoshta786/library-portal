@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.form-error{
+	border-top: 10px;
+	color: red;
+}

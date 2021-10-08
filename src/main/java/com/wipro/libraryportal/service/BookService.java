@@ -16,4 +16,12 @@ public class BookService {
 	public List<Book> getAllBooks(){
 		return (List<Book>) bookDao.findAll();
 	}
+	
+	public boolean addBook(Book book) {
+		if(bookDao.existsById(book.getIsbn())) {
+			return false;
+		}
+		bookDao.save(book);
+		return true;
+	}
 }
