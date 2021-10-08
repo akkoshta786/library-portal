@@ -2,22 +2,26 @@ package com.wipro.libraryportal.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
-
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
 import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.UserService;
+
+
 
 
 @Controller
@@ -47,6 +51,7 @@ public class myController {
 	
 	@PostMapping("/signup")
 	public String register(@ModelAttribute("user") User userx, ModelMap model) {
+		
 		/* 
 		 	Check for email validity
 		  	redirect to sign-up page again if found invalid
@@ -102,10 +107,36 @@ public class myController {
 		return "welcome";
 	}
 	
-	@RequestMapping(value="postBook", method = RequestMethod.POST, produces = "application/json")
-	public String addBook(@RequestParam String isbn, @RequestParam String title, @RequestParam String author, @RequestParam String publisher, @RequestParam String language, @RequestParam String numberOfPages, @RequestParam String copies) {
-		bookService.addBook(new Book(isbn.replace("-", ""), title, author, publisher, language, Integer.parseInt(numberOfPages), Integer.parseInt(copies)));
-		return "Book added successfully";
+	
+	@RequestMapping(value="/postBook", method=RequestMethod.POST)
+	public @ResponseBody String addBook(@RequestBody String json) {
+		Object obj = JSONValue.parse(json);
+		JSONObject jsonObject = (JSONObject) obj;
+		
+		String isbn = (String) jsonObject.get("isbn");
+		String title = (String) jsonObject.get("title");
+		String author = (String) jsonObject.get("author");
+		String publisher = (String) jsonObject.get("publisher");
+		String language = (String) jsonObject.get("language");
+		int numberOfPages = Integer.parseInt((String) jsonObject.get("numberOfPages"));
+		int copies = Integer.parseInt((String) jsonObject.get("copies"));
+		
+		if(bookService.addBook(new Book(isbn, title, author, publisher, language, numberOfPages, copies))) {
+			return json;
+		};
+		
+		return null;
 	}
+	
+	@GetMapping("all-issues")
+	public String showAllIssuesPage() {
+		return "all-issues";
+	}
+	
+	@GetMapping("my-issues")
+	public String showMyIssuesPage() {
+		return "my-issues";
+	}
+	
 
 }

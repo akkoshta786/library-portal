@@ -12,17 +12,22 @@ $(document).ready(function(){
 		})
 
 		var json= JSON.stringify( obj);
-		console.log(obj);
+		console.log(json);
+		
+		
 		
 		$.ajax({
 			
 			type: "POST",
-			/*contentType: "application.json",*/
+			contentType: "application/json",
 			url: "postBook",
-			data: obj,
+			data: json,
 			dataType: 'json',
 			success: function(response){
-				alert(response);
+				alert("Book added successfully");
+			},
+			error: function(response){
+				alert("Book with given ISBN already available");
 			}
 		});
 	

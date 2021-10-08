@@ -4,19 +4,17 @@
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<% 
-		if(session.getAttribute("USERNAME") != null){
-			response.sendRedirect("welcome");
-		}
-	%>
+
+	<c:if test = "${not empty sessionScope['USERNAME']}">
+		<c:redirect url="/welcome"></c:redirect>
+	</c:if>
+		
 	<div class="wrapper container">
 		<div class="status_message" id="status_login">
-				<p>${message}</p>
+			<p>${message}</p>
 		</div>
 		<div id="formContent">
-	 
-		    <h2 class="active"> Sign In </h2>
-		
+	 		<h2 class="active"> Sign In </h2>
 			<form action="login" method="post">
 				<fieldset class="form-group">
 					<input type="text" name="email" class="form-control-plaintext" placeholder="email" />
@@ -24,7 +22,6 @@
 				<fieldset class="form-group">
 					<input type="password" name="password" class="form-control-plaintext" placeholder="password" required="required"/>
 				</fieldset>
-				
 				<button type="submit" class="btn btn-success">Log In</button>
 			</form>
 		    <br>
@@ -34,8 +31,7 @@
 		    <div id="formFooter">
 		      <a class="underlineHover" href="#">Forgot Password?</a>
 		    </div>
-	
-	  	</div>
+		</div>
 	</div>
 </body>
 </html>

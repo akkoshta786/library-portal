@@ -1,6 +1,6 @@
 package com.wipro.libraryportal.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -9,23 +9,28 @@ import org.springframework.stereotype.Component;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.jpa.UserDao;
 
+
 @Component
 public class UserService {
 	@Autowired
 	private UserDao dao;
 	
-	public boolean registerUser(User user) {
-		if(dao.existsById(user.getEmail())) {
+	List<User> users;
+	
+	public boolean registerUser(User newUser) {
+		System.err.println(dao.findByEmail("atul.koshta@wipr.com"));
+		users = dao.findByEmail(newUser.getEmail());
+		if(!users.isEmpty()) {
 			return false;
 		}
-		dao.save(user);
+		dao.save(newUser);
 		return true;
 	}
 	
 	public boolean isValidUser(String email, String pwd) {
-		Optional<User> user =  dao.findById(email);
-		if(user.isPresent()) {
-			if(BCrypt.checkpw(pwd, user.get().getPassword())) {
+		users = dao.findByEmail(email);
+		if(!users.isEmpty()) {
+			if(BCrypt.checkpw(pwd, users.get(0).getPassword())) {
 				return true;
 			}
 		}
@@ -33,7 +38,10 @@ public class UserService {
 	}
 	
 	public boolean isAdmin(String email) {
-		Optional<User> user = dao.findById(email);
-		return user.get().isAdmin();
+		users = dao.findByEmail(email);
+		if(!users.isEmpty()) {
+			return users.get(0).isAdmin();
+		}
+		return false;
 	}
 }

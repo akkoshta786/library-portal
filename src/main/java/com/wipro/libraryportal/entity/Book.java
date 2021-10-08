@@ -1,6 +1,5 @@
 package com.wipro.libraryportal.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -27,10 +26,6 @@ public class Book {
 	
 	@NotNull
 	private int copies;
-	
-	
-	@Column(nullable = true)
-	private String issuedBy;
 
 
 	public Book() {
@@ -116,20 +111,10 @@ public class Book {
 	}
 
 
-	public String getIssuedBy() {
-		return issuedBy;
-	}
-
-	public void setIssuedBy(String issuedBy) {
-		this.issuedBy = issuedBy;
-	}
-
-
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", author=" + author + ", publisher=" + publisher
-				+ ", language=" + language + ", numberOfPages=" + numberOfPages + ", copies=" + copies + ", issuedBy="
-				+ issuedBy + "]";
+				+ ", language=" + language + ", numberOfPages=" + numberOfPages + ", copies=" + copies + "]";
 	}
 	
 	

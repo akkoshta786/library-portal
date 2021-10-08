@@ -1,44 +1,36 @@
-<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#">Library Portal</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="navbar-nav">
-	    	<li class="nav-item active">
-	        	<a class="nav-link" href="/welcome">Home &emsp;<span class="sr-only">(current)</span></a>
-	      	</li>
-	      	<%
-	      		if(session.getAttribute("ADMIN") != null){
-	      			if(!(Boolean)session.getAttribute("ADMIN")){
-		      			out.println("<li class='nav-item active'>"); 
-		      		    out.println("<a class='nav-link' href='#'>Issued <span class='sr-only'></span></a>");
-		      			out.println("</li>");
-		      		}else{
-		      			out.println("<li>"); 
-		      		    out.println("<button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-whatever='@mdo'>Add</button>");
-		      			out.println("</li>");
-		      			
-		      			out.println("<li>"); 
-		      		    out.println("&emsp;<button type='button' class='btn btn-danger' href='/logout'><span class='glyphicon glyphicon-log-in'></span>Delete</button>");
-		      			out.println("</li>");
-		      		}
-	      		}
-		      	
-	      	%>
-	      	
-	    </ul>
-	</div>
-	 
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<ul class="nav navbar-nav navbar-right">
-		    	<li><h6> <% out.print(session.getAttribute("USERNAME")); %> <span class="badge badge-secondary"></span>&emsp; </h6></li>
-		    </ul>
-			<ul class="nav navbar-nav navbar-right">
-		    	<li><a class="btn btn-primary" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		    </ul>
-		 </div>
-	</nav>
+  <a class="navbar-brand" href="#">Library Portal</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+	    <li class="nav-item active">
+	     	<a class="nav-link" href="/welcome">Home<span class="sr-only">(current)</span></a>
+	    </li>
+     	<c:if test = "${not empty sessionScope['ADMIN']}">
+	      	<c:choose>
+	      		<c:when test="${sessionScope['ADMIN'] == false}">
+	      			<li class='nav-item active'>
+	      				<a class='nav-link' href='/my-issues'>Issued<span class='sr-only'></span></a>
+	      			</li>
+	      		</c:when>
+	      		<c:otherwise>
+	      			<li class='nav-item active'>
+	      				<a class='nav-link' href='all-issues'>All Issues<span class='sr-only'></span></a>
+	      			</li>
+	      			<li>
+	      				<button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-whatever='@mdo'>Add</button>
+	    			</li>
+	    			<li>
+	    				<button type='button' class='btn btn-danger' href='/logout'><span class='glyphicon glyphicon-log-in'></span>Delete</button>
+	    			</li>
+	      		</c:otherwise>
+	      	</c:choose>
+      	</c:if>
+    </ul>
+   	<h6> <% out.print(session.getAttribute("USERNAME")); %> <span class="badge badge-secondary"></span></h6>
+   	<a class="btn btn-primary" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+  </div>
 </nav>

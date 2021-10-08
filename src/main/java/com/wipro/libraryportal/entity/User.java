@@ -2,12 +2,17 @@ package com.wipro.libraryportal.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class User {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long memberId;
+	
 	private String email;
 	private String password;
 	
@@ -29,6 +34,15 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.admin = admin;
+	}
+	
+	
+	public Long getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getEmail() {
