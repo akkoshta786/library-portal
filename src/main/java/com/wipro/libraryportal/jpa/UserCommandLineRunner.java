@@ -22,6 +22,9 @@ public class UserCommandLineRunner implements CommandLineRunner {
 //         save a couple of users
         dao.save(new User("atul.koshta@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", true));
         dao.save(new User("nachiketa.kumar@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme"));
+        dao.save(new User("chilla.reddy2@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", true));
+        dao.save(new User("akshay.koshta@gmail.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme"));
+       
         
         log.info("Finding all users");
         log.info("-------------------------------");

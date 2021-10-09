@@ -1,12 +1,13 @@
 package com.wipro.libraryportal.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "books")
 public class Book {
 	@Id
 	private String isbn;
@@ -29,7 +30,8 @@ public class Book {
 	@NotNull
 	private int copies;
 	
-
+	@OneToMany(mappedBy = "book")
+	private Set<Issue> issues;
 
 	public Book() {
 		super();
@@ -109,6 +111,16 @@ public class Book {
 
 	public void setCopies(int copies) {
 		this.copies = copies;
+	}
+
+
+	public Set<Issue> getIssues() {
+		return issues;
+	}
+
+
+	public void setIssues(Set<Issue> issues) {
+		this.issues = issues;
 	}
 
 

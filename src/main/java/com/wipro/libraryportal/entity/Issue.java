@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "issues")
 public class Issue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,14 @@ public class Issue {
 	
 	private Date dateOfIssue;
 
-
+	@ManyToOne
+	@JoinColumn(name = "memberId", insertable = false, updatable = false)
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "isbn", insertable = false, updatable = false)
+	private Book book;
+	
 	public Issue() {
 		super();
 	}
@@ -75,6 +82,27 @@ public class Issue {
 
 	public void setDateOfIssue(Date dateOfIssue) {
 		this.dateOfIssue = dateOfIssue;
+	}
+
+	
+	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public Book getBook() {
+		return book;
+	}
+
+
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
 

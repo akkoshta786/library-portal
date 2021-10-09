@@ -128,10 +128,6 @@ public class myController {
 		return null;
 	}
 	
-	@GetMapping("all-issues")
-	public String showAllIssuesPage() {
-		return "all-issues";
-	}
 	
 	@GetMapping("my-issues")
 	public String showMyIssuesPage() {

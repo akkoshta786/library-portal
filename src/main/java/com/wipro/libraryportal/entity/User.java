@@ -1,14 +1,15 @@
 package com.wipro.libraryportal.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "users")
 public class User {
 	
 	@Id
@@ -20,6 +21,9 @@ public class User {
 
 	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean admin;
+	
+	@OneToMany(mappedBy = "user")
+	private Set<Issue> issues;
 		
 	public User() {
 		super();
@@ -74,6 +78,14 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [email=" + email + "]";
+	}
+
+	public Set<Issue> getIssues() {
+		return issues;
+	}
+
+	public void setIssues(Set<Issue> issues) {
+		this.issues = issues;
 	}
 
 	

@@ -83,19 +83,31 @@ $(document).ready(function(){
 			$.ajax({
 				url: "/issue/"+email+"/"+issueButtonId,
 				success: function(responseCode){
-					if(responseCode == 1){
-						alert("Book "+issueButtonId+" issued to "+email);
-					}else if(responseCode == 2){
-						alert("No more copies available for this book, try later.");
-					}else if(responseCode == 3){
-						alert("Email ID provided is not a valid member!");
-					}else{
-						alert("Unauthorized action!")
+					switch(responseCode){
+						case 0:
+							alert("Unauthorized action!");
+							break;
+						case 1:
+							alert("Book "+issueButtonId+" issued to "+email);
+							location.reload();
+							break;
+						case 2:
+							alert("No copies available for this book");
+							break;
+						case 3:
+							alert("Member already issued this book.");
+							break;
+						case 4:
+							alert("No member with given email registered.");
+							break;
+						default:
+							alert("Unauthorized action!");
+							break;
 					}
 					
 				},
 				error: function(error){
-					alert("Some error has occured! Please contact administrator.")
+					alert("Opps! Error occured.")
 				}
 			});
 			

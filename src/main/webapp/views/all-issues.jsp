@@ -20,5 +20,29 @@
 		</c:otherwise>
 	</c:choose>
 	
+	
+	<table class="table table-striped">
+		<thead class="thead-dark">
+			<tr>
+		    	<th scope="col">Member</th>
+		      	<th scope="col">ISBN</th>
+		      	<th scope="col">Title</th>
+		      	<th scope="col">Date of Issue</th>
+		      	<th scope="col"></th>
+		    </tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${allIssuesList}" var="issue">
+				<tr>
+					<td>${issue.email}</td>
+					<td>${issue.isbn}</td>
+					<td>${issue.title}</td>
+					<td>${issue.dateOfIssue}</td>
+					<td><a><button type="button" class="btn btn-success">Return</button></a></td>
+					
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 
 <%@include file="common/footer.jspf" %>

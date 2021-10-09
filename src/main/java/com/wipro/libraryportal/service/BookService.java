@@ -28,7 +28,6 @@ public class BookService {
 	public boolean decreaseBookCopies(String isbn) {
 		List<Book> books = bookDao.findByIsbn(isbn);
 		if(!books.isEmpty()) {
-			System.err.println(books.get(0).getCopies());
 			int currentCopies = books.get(0).getCopies();
 			if(currentCopies > 0) {
 				bookDao.updateBookCopies(isbn, currentCopies-1);
