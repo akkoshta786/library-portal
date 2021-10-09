@@ -1,8 +1,16 @@
 $(document).ready(function(){
 	
+	/**
+		JAVASCRIPT FOR ADD BOOK(ADMIN)
+	 */
+	/* 
+		Gets called when admin clicks on 'Add' to add book
+	*/
+	
 	$('#exampleModal').on('show.bs.modal', function () {
 
-	  $( "#formdata" ).submit(function( event ) {
+		// Gets executed when admin submits new book data in add book form
+	  	$( "#formdata" ).submit(function( event ) {
 		
 		var $items = $('#isbn, #title, #author, #publisher, #language, #numberOfPages, #copies');
 		var obj = {}
@@ -15,7 +23,10 @@ $(document).ready(function(){
 		console.log(json);
 		
 		
-		
+		/*
+			AJAX call to send POST request to add book
+			Request sent to controller
+		 */
 		$.ajax({
 			
 			type: "POST",
@@ -31,6 +42,7 @@ $(document).ready(function(){
 			}
 		});
 	
+		// Empty form to make it available to add next book
 		$(':input','#formdata')
 		  .not(':button, :submit, :reset, :hidden')
 		  .val('')
@@ -46,6 +58,54 @@ $(document).ready(function(){
 
 	});
 	
+	/*
+		JAVASCRIPT FOR ISSUEING THE BOOK
+	*/ 
+	/* 
+		Grabs the issue button id (=book isbn) when admin clicks on issue button
+		storing book isbn in 'issueButtonId' variable
+	*/
+	var issueButtonId;
+	$('.issue-button').on('click', function(){
+		issueButtonId = this.id;
+		
+	});
+	
+	/*
+		Function for showing the pop-up to issue a book
+		and sending GET request to controller
+	*/
+	$('#issueModal').on('show.bs.modal', function () {
+		$(document.getElementById('issue-isbn')).val(issueButtonId);
+  		$( "#issueFormData" ).submit(function( event ) {
+			var email = $('#email').val();
+			
+			$.ajax({
+				url: "/issue/"+email+"/"+issueButtonId,
+				success: function(responseCode){
+					if(responseCode == 1){
+						alert("Book "+issueButtonId+" issued to "+email);
+					}else if(responseCode == 2){
+						alert("No more copies available for this book, try later.");
+					}else if(responseCode == 3){
+						alert("Email ID provided is not a valid member!");
+					}else{
+						alert("Unauthorized action!")
+					}
+					
+				},
+				error: function(error){
+					alert("Some error has occured! Please contact administrator.")
+				}
+			});
+			
+		});
+		
+	});
+	
+	
+	// Continiously alerts the user about validity of ISBN entered
+	// Either when admin enters character or when it leaves the field
 	$('#isbn').bind("keyup focusout", function(){
 		var isbn = $('#isbn').val();
 		if(validateISBN(isbn) != 1){
@@ -60,9 +120,10 @@ $(document).ready(function(){
 		
 	});
 	
-	
+	// Regular expression for valid ISBN
 	var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;
 
+	// This function checks validity to given ISBN
 	function validateISBN(subject){
 		if (regex.test(subject)) {
 	    // Remove non ISBN digits, then split into an array

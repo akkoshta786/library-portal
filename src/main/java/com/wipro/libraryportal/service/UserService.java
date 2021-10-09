@@ -17,6 +17,14 @@ public class UserService {
 	
 	List<User> users;
 	
+	public User getUserByEmail(String email) {
+		users = (List<User>) dao.findByEmail(email);
+		if(!users.isEmpty()) {
+			return users.get(0);
+		}
+		return null;
+	}
+	
 	public boolean registerUser(User newUser) {
 		System.err.println(dao.findByEmail("atul.koshta@wipr.com"));
 		users = dao.findByEmail(newUser.getEmail());

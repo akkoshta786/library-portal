@@ -2,9 +2,11 @@ package com.wipro.libraryportal.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "books")
 public class Book {
 	@Id
 	private String isbn;
@@ -26,6 +28,7 @@ public class Book {
 	
 	@NotNull
 	private int copies;
+	
 
 
 	public Book() {
@@ -44,8 +47,6 @@ public class Book {
 		this.numberOfPages = numberOfPages;
 		this.copies = copies;
 	}
-
-
 
 
 	public String getIsbn() {

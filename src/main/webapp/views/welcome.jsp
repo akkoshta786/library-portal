@@ -16,6 +16,17 @@
 			<c:redirect url="/login"></c:redirect>
 		</c:otherwise>
 	</c:choose>
+	
+	<c:choose>
+		<c:when test = "${not empty sessionScope['ADMIN']}">
+			<c:if test="${sessionScope['ADMIN']}">
+				<c:import url="issue-book.jspf" />
+			</c:if>
+		</c:when>
+		<c:otherwise>
+			<c:redirect url="/login"></c:redirect>
+		</c:otherwise>
+	</c:choose>
 
 	
 
@@ -52,7 +63,7 @@
 						<c:when test="${sessionScope['ADMIN']}">
 							<c:choose>
 								<c:when test="${book.copies > 0}">
-									<td><a href="#"><button type="button" class="btn btn-success">Issue</button></a></td>
+									<td><button type="button" class="btn btn-success issue-button" data-toggle='modal' data-target='#issueModal' id="${book.isbn}">Issue</button></td>
 								</c:when>
 								<c:otherwise>
 									<td><a><button type="button" class="btn btn-secondary" disabled>Issue</button></a></td>

@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
 	
 	@Id
@@ -15,7 +17,7 @@ public class User {
 	
 	private String email;
 	private String password;
-	
+
 	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean admin;
 		
