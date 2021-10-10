@@ -2,32 +2,19 @@ package com.wipro.libraryportal.dto;
 
 import java.util.Date;
 
-
-public class UserBookDto {
-	private String email;
+public class MyIssue {
 	private String isbn;
 	private String title;
 	private Date dateOfIssue;
 	private int duration;
-
-
-	public UserBookDto(String email, String isbn, String title, Date dateOfIssue, int duration) {
+	
+	
+	public MyIssue(String isbn, String title, Date dateOfIssue, int duration) {
 		super();
-		this.email = email;
 		this.isbn = isbn;
 		this.title = title;
 		this.dateOfIssue = dateOfIssue;
 		this.duration = duration;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 
@@ -73,12 +60,8 @@ public class UserBookDto {
 
 	@Override
 	public String toString() {
-		return "UserBookDto [email=" + email + ", isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue
-				+ ", duration=" + duration + "]";
+		return "myIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", duration=" + duration
+				+ "]";
 	}
-
-
-	
-	
 	
 }

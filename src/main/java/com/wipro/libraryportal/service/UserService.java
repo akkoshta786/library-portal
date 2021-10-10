@@ -26,7 +26,7 @@ public class UserService {
 	}
 	
 	public boolean registerUser(User newUser) {
-		System.err.println(dao.findByEmail("atul.koshta@wipr.com"));
+		
 		users = dao.findByEmail(newUser.getEmail());
 		if(!users.isEmpty()) {
 			return false;

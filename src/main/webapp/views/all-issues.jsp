@@ -27,7 +27,8 @@
 		    	<th scope="col">Member</th>
 		      	<th scope="col">ISBN</th>
 		      	<th scope="col">Title</th>
-		      	<th scope="col">Date of Issue</th>
+		      	<th scope="col">Issued on</th>
+		      	<th scope="col">Issued for</th>
 		      	<th scope="col"></th>
 		    </tr>
 		</thead>
@@ -38,6 +39,7 @@
 					<td>${issue.isbn}</td>
 					<td>${issue.title}</td>
 					<td>${issue.dateOfIssue}</td>
+					<td>${issue.duration}D</td>
 					<td><a><button type="button" class="btn btn-success">Return</button></a></td>
 					
 				</tr>

@@ -23,6 +23,9 @@ public class Issue {
 	private String isbn;
 	
 	private Date dateOfIssue;
+	
+	@NotNull
+	private int duration;
 
 	@ManyToOne
 	@JoinColumn(name = "memberId", insertable = false, updatable = false)
@@ -37,11 +40,12 @@ public class Issue {
 	}
 
 
-	public Issue(@NotNull long memberId, @NotNull String isbn) {
+	public Issue(@NotNull long memberId, @NotNull String isbn, @NotNull int duration) {
 		super();
 		this.memberId = memberId;
 		this.isbn = isbn;
 		this.dateOfIssue = new Date();
+		this.duration = duration;
 	}
 
 
@@ -85,7 +89,16 @@ public class Issue {
 	}
 
 	
-	
+	public int getDuration() {
+		return duration;
+	}
+
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+
 	public User getUser() {
 		return user;
 	}

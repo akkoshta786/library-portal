@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
 import com.wipro.libraryportal.service.BookService;
+import com.wipro.libraryportal.service.IssueService;
 import com.wipro.libraryportal.service.UserService;
 
 
@@ -35,6 +38,9 @@ public class myController {
 	
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	IssueService issueService;
 	
 	
 	
@@ -66,7 +72,7 @@ public class myController {
 		*/
 		String pwdHash = applicationService.getHash(userx.getPassword());
 		
-		if(userService.registerUser(new User(userx.getEmail(), pwdHash))) {
+		if(userService.registerUser(new User(userx.getEmail().toLowerCase(), pwdHash))) {
 			/* 
 			 	User registered successfully
 				redirecting to login page
@@ -74,6 +80,7 @@ public class myController {
 			model.addAttribute("message", "User registered successfully. Sign in to access portal");
 			return "login";
 		}
+		
 		
 		// Something went wrong, user didn't got registered
 		model.addAttribute("message", "Username already taken!");
@@ -109,7 +116,8 @@ public class myController {
 	
 	
 	@RequestMapping(value="/postBook", method=RequestMethod.POST)
-	public @ResponseBody String addBook(@RequestBody String json) {
+	@ResponseBody
+	public String addBook(@RequestBody String json) {
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		
@@ -130,8 +138,13 @@ public class myController {
 	
 	
 	@GetMapping("my-issues")
-	public String showMyIssuesPage() {
-		return "my-issues";
+	public String showMyIssuesPage(ModelMap model, HttpServletRequest req) {
+		if(req.getSession().getAttribute("USERNAME") != null){
+			User user = userService.getUserByEmail((String) req.getSession().getAttribute("USERNAME"));
+			model.addAttribute("myIssues", issueService.getMyIssues(user.getMemberId()));
+			return "my-issues";
+		}
+		return null;
 	}
 	
 

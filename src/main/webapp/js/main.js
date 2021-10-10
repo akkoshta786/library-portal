@@ -78,36 +78,45 @@ $(document).ready(function(){
 	$('#issueModal').on('show.bs.modal', function () {
 		$(document.getElementById('issue-isbn')).val(issueButtonId);
   		$( "#issueFormData" ).submit(function( event ) {
-			var email = $('#email').val();
+			var email = $('#email').val().toLowerCase();
+			var duration = $('#duration').val();
 			
+			var obj = {'email': email,
+						'isbn': issueButtonId,
+						'duration': duration
+			};
+			
+			var json = JSON.stringify(obj);
+			
+			
+			// POST REQUEST TO ISSUE BOOK
 			$.ajax({
-				url: "/issue/"+email+"/"+issueButtonId,
-				success: function(responseCode){
-					switch(responseCode){
-						case 0:
-							alert("Unauthorized action!");
-							break;
+			
+				type: "POST",
+				contentType: "application/json",
+				url: "issueBook",
+				data: json,
+				dataType: 'json',
+				success: function(response){
+					switch(response){
 						case 1:
-							alert("Book "+issueButtonId+" issued to "+email);
-							location.reload();
+							alert(issueButtonId+" issued to "+email);
 							break;
 						case 2:
-							alert("No copies available for this book");
+							alert("No more copies of this book available. Try later");
 							break;
 						case 3:
-							alert("Member already issued this book.");
+							alert("User has not returned this book yet");
 							break;
 						case 4:
-							alert("No member with given email registered.");
+							alert(email+" is not a member!");
 							break;
 						default:
-							alert("Unauthorized action!");
-							break;
+							alert("Unauthorized access!");
 					}
-					
 				},
-				error: function(error){
-					alert("Opps! Error occured.")
+				error: function(response){
+					alert(response);
 				}
 			});
 			
