@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
@@ -44,18 +42,18 @@ public class myController {
 	
 	
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="")
 	public String redirectToLogin() {
-		return "redirect:/login";
+		return "redirect:login";
 	}
 	
-	@GetMapping(value="/signup")
+	@GetMapping(value="signup")
 	public String showSignupPage(ModelMap model) {
 		model.put("user", new User("", ""));
 		return "signup";
 	}
 	
-	@PostMapping("/signup")
+	@PostMapping("signup")
 	public String register(@ModelAttribute("user") User userx, ModelMap model) {
 		
 		/* 
@@ -87,12 +85,12 @@ public class myController {
 		return "signup";
 	}
 	
-	@GetMapping(value="/login")
+	@GetMapping(value="login")
 	public String showLoginPage() {
 		return "login";
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("login")
 	public String login(@RequestParam("email") String email, @RequestParam("password") String password, ModelMap model, HttpServletRequest req) {
 		/*
 		 	if the user is invalid, redirect to login
@@ -105,7 +103,7 @@ public class myController {
 		
 		req.getSession().setAttribute("USERNAME", email);
 		req.getSession().setAttribute("ADMIN", userService.isAdmin(email));
-		return "redirect:/welcome";
+		return "redirect:welcome";
 	}
 	
 	@GetMapping("welcome")
@@ -115,7 +113,7 @@ public class myController {
 	}
 	
 	
-	@RequestMapping(value="/postBook", method=RequestMethod.POST)
+	@RequestMapping(value="postBook", method=RequestMethod.POST)
 	@ResponseBody
 	public String addBook(@RequestBody String json) {
 		Object obj = JSONValue.parse(json);
