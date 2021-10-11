@@ -10,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wipro.libraryportal.entity.Issue;
@@ -32,7 +34,7 @@ public class AdminController {
 	private IssueService issueService;
 	
 	
-	@PostMapping("issueBook")
+	@RequestMapping(value="issueBook", method = RequestMethod.POST)
 	@ResponseBody
 	public int issueBook(@RequestBody String json, HttpServletRequest req) {
 		Object obj = JSONValue.parse(json);
