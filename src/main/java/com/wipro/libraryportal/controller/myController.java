@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.User;
@@ -117,7 +116,7 @@ public class myController {
 	
 	@RequestMapping(value="postBook", method=RequestMethod.POST)
 	@ResponseBody
-	public String addBook(@RequestBody String json) {
+	public int addBook(@RequestBody String json) {
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		
@@ -130,10 +129,11 @@ public class myController {
 		int copies = Integer.parseInt((String) jsonObject.get("copies"));
 		
 		if(bookService.addBook(new Book(isbn, title, author, publisher, language, numberOfPages, copies))) {
-			return json;
-		};
+			return 1;
+		}else {
+			return 0;
+		}
 		
-		return null;
 	}
 	
 	

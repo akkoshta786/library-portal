@@ -35,7 +35,16 @@ $(document).ready(function(){
 			data: json,
 			dataType: 'json',
 			success: function(response){
-				alert("Book added successfully");
+				switch(response){
+					case 0:
+						alert("Book with given ISBN already exist.");
+						break;
+					case 1:
+						alert("Book added to library.")
+						break;
+					default:
+						alert("Unsuccessful attempt to add book!");
+				}
 			},
 			error: function(response){
 				alert("Book with given ISBN already available");
