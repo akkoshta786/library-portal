@@ -7,13 +7,13 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 	    <li class="nav-item active">
-	     	<a class="nav-link" href="/welcome">Home<span class="sr-only">(current)</span></a>
+	     	<a class="nav-link" href="welcome">Home<span class="sr-only">(current)</span></a>
 	    </li>
      	<c:if test = "${not empty sessionScope['ADMIN']}">
 	      	<c:choose>
 	      		<c:when test="${sessionScope['ADMIN'] == false}">
 	      			<li class='nav-item active'>
-	      				<a class='nav-link' href='/my-issues'>Issued<span class='sr-only'></span></a>
+	      				<a class='nav-link' href='my-issues'>Issued<span class='sr-only'></span></a>
 	      			</li>
 	      		</c:when>
 	      		<c:otherwise>
@@ -24,13 +24,13 @@
 	      				<button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-whatever='@mdo'>Add</button>
 	    			</li>
 	    			<li>
-	    				<button type='button' class='btn btn-danger' href='/logout'><span class='glyphicon glyphicon-log-in'></span>Delete</button>
+	    				<button type='button' class='btn btn-danger' href='logout'><span class='glyphicon glyphicon-log-in'></span>Delete</button>
 	    			</li>
 	      		</c:otherwise>
 	      	</c:choose>
       	</c:if>
     </ul>
    	<h6> <% out.print(session.getAttribute("USERNAME")); %> <span class="badge badge-secondary"></span></h6>
-   	<a class="btn btn-primary" href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+   	<a class="btn btn-primary" href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
   </div>
 </nav>
