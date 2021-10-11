@@ -2,6 +2,7 @@ package com.wipro.libraryportal.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,9 @@ public class Issue {
 	
 	@NotNull
 	private int duration;
+	
+	@Column(nullable = false)
+    private int status;
 
 	@ManyToOne
 	@JoinColumn(name = "memberId", insertable = false, updatable = false)
@@ -46,6 +50,7 @@ public class Issue {
 		this.isbn = isbn;
 		this.dateOfIssue = new Date();
 		this.duration = duration;
+		this.status = 1;
 	}
 
 
@@ -96,6 +101,15 @@ public class Issue {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 

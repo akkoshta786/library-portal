@@ -25,15 +25,17 @@ public class BookService {
 		return true;
 	}
 	
-	public boolean decreaseBookCopies(String isbn) {
+	public boolean updateBookCopies(String isbn, int operation) {
 		List<Book> books = bookDao.findByIsbn(isbn);
 		if(!books.isEmpty()) {
 			int currentCopies = books.get(0).getCopies();
-			if(currentCopies > 0) {
-				bookDao.updateBookCopies(isbn, currentCopies-1);
+			if(operation + currentCopies >= 0) {
+				bookDao.updateBookCopies(isbn, currentCopies+operation);
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	
 }

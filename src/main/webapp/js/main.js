@@ -41,6 +41,7 @@ $(document).ready(function(){
 						break;
 					case 1:
 						alert("Book added to library.")
+						location.reload();
 						break;
 					default:
 						alert("Unsuccessful attempt to add book!");
@@ -82,7 +83,7 @@ $(document).ready(function(){
 	
 	/*
 		Function for showing the pop-up to issue a book
-		and sending GET request to controller
+		and sending POST request to controller
 	*/
 	$('#issueModal').on('show.bs.modal', function () {
 		$(document.getElementById('issue-isbn')).val(issueButtonId);
@@ -110,6 +111,7 @@ $(document).ready(function(){
 					switch(response){
 						case 1:
 							alert(issueButtonId+" issued to "+email);
+							location.reload();
 							break;
 						case 2:
 							alert("No more copies of this book available. Try later");
@@ -149,6 +151,7 @@ $(document).ready(function(){
 		}
 		
 	});
+	
 	
 	// Regular expression for valid ISBN
 	var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;

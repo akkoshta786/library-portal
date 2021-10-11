@@ -1,6 +1,5 @@
 package com.wipro.libraryportal.service;
 
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -28,12 +27,5 @@ public class ApplicationService {
         return pat.matcher(email).matches();
     }
 	
-	public void wait2sec() {
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 	
 }

@@ -60,8 +60,11 @@ public class MyIssue {
 
 	@Override
 	public String toString() {
-		return "myIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", duration=" + duration
+		return "MyIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", duration=" + duration
 				+ "]";
 	}
+
+
+	
 	
 }

@@ -40,11 +40,27 @@
 					<td>${issue.title}</td>
 					<td>${issue.dateOfIssue}</td>
 					<td>${issue.duration}D</td>
-					<td><a><button type="button" class="btn btn-success">Return</button></a></td>
+					<td><button type="button" class="btn btn-success return-button" id="${issue.issueId }">Return</button></td>
 					
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confirm-modal">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Do you really want to return this book?</h4>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-success" id="modal-btn-yes">Yes, Return this book</button>
+	        <button type="button" class="btn btn-warning" id="modal-btn-no">No, it was by mistake</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 <%@include file="common/footer.jspf" %>
+<script src="js/main.js"></script>
+<script type="text/javascript" src="js/all-issues.js"></script>

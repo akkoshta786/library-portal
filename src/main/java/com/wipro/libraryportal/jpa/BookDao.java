@@ -16,8 +16,7 @@ public interface BookDao extends CrudRepository<Book, String> {
 	
 	@Transactional
 	@Modifying
-	@Query("update Book b set b.copies = :copies where b.isbn = :isbn")
+	@Query("UPDATE Book b set b.copies = :copies WHERE b.isbn = :isbn")
 	void updateBookCopies(@Param(value="isbn") String isbn, @Param(value="copies") int copies);
-	
 	
 }

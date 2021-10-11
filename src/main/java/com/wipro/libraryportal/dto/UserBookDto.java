@@ -4,6 +4,7 @@ import java.util.Date;
 
 
 public class UserBookDto {
+	private long issueId;
 	private String email;
 	private String isbn;
 	private String title;
@@ -11,14 +12,26 @@ public class UserBookDto {
 	private int duration;
 
 
-	public UserBookDto(String email, String isbn, String title, Date dateOfIssue, int duration) {
+	public UserBookDto(long issueId, String email, String isbn, String title, Date dateOfIssue, int duration) {
 		super();
+		this.issueId = issueId;
 		this.email = email;
 		this.isbn = isbn;
 		this.title = title;
 		this.dateOfIssue = dateOfIssue;
 		this.duration = duration;
 	}
+
+
+	public long getIssueId() {
+		return issueId;
+	}
+
+
+	public void setIssueId(long issueId) {
+		this.issueId = issueId;
+	}
+
 
 
 	public String getEmail() {
@@ -73,12 +86,11 @@ public class UserBookDto {
 
 	@Override
 	public String toString() {
-		return "UserBookDto [email=" + email + ", isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue
-				+ ", duration=" + duration + "]";
+		return "UserBookDto [issueId=" + issueId + ", email=" + email + ", isbn=" + isbn + ", title=" + title
+				+ ", dateOfIssue=" + dateOfIssue + ", duration=" + duration + "]";
 	}
 
 
-	
 	
 	
 }

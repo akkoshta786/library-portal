@@ -1,6 +1,7 @@
 package com.wipro.libraryportal.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,11 @@ public class IssueService {
 		return true;
 	}
 	
+	
+	public Optional<Issue> findIssueById(long issueId) {
+		return issueDao.findByIssueId(issueId);
+	}
+	
 	public List<UserBookDto> getAllIssues(){
 		return issueDao.fetchAllIssuesJoin();
 	}
@@ -30,5 +36,9 @@ public class IssueService {
 	
 	public List<MyIssue> getMyIssues(long memberId){
 		return issueDao.findMyIssues(memberId);
+	}
+	
+	public void updateIssueStatus(long issueId) {
+		issueDao.updateIssueStatus(issueId);
 	}
 }

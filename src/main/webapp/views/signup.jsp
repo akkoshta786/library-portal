@@ -1,7 +1,6 @@
 <%@include file="common/header.jspf" %>
 <title>SIGNUP</title>
-<link rel="stylesheet" href="../css/main.css">
-<link rel="stylesheet" href="../css/alert.css">
+<link rel="stylesheet" href="css/main.css">
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
