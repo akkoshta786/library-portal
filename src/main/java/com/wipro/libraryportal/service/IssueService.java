@@ -41,4 +41,5 @@ public class IssueService {
 	public void updateIssueStatus(long issueId) {
 		issueDao.updateIssueStatus(issueId);
 	}
+	
 }

@@ -43,15 +43,10 @@
 		      	<th scope="col">Publisher</th>
 		      	<th scope="col">Language</th>
 		      	<th scope="col">Pages</th>
-		      	<c:choose>
-					<c:when test="${sessionScope['ADMIN']}">
+		      	<th scope="col">Copies</th>
+		      	<c:if test="${sessionScope['ADMIN']}">
 						<th scope="col"></th>
-					</c:when>
-					<c:otherwise>
-						<th scope="col">Copies</th>
-					</c:otherwise>
-					</c:choose>
-		      	<th scope="col"></th>
+				</c:if>
 		    </tr>
 		</thead>
 		<tbody>
@@ -63,22 +58,18 @@
 					<td>${book.publisher }</td>
 					<td>${book.language }</td>
 					<td>${book.numberOfPages }</td>
-					<c:choose>
-						<c:when test="${sessionScope['ADMIN']}">
-							<c:choose>
-								<c:when test="${book.copies > 0}">
-									<td><button type="button" class="btn btn-success issue-button" data-toggle='modal' data-target='#issueModal' id="${book.isbn}">Issue</button></td>
-								</c:when>
-								<c:otherwise>
-									<td><a><button type="button" class="btn btn-secondary" disabled>Issue</button></a></td>
-								</c:otherwise>
-							</c:choose>
-						</c:when>
-						<c:otherwise>
-							<td>${book.copies }</td>
-						</c:otherwise>
-					</c:choose>
+					<td>${book.copies }</td>
 					
+					<c:if test="${sessionScope['ADMIN']}">
+						<c:choose>
+							<c:when test="${book.copies > 0}">
+								<td><button type="button" class="btn btn-success issue-button" data-toggle='modal' data-target='#issueModal' id="${book.isbn}">Issue</button></td>
+							</c:when>
+							<c:otherwise>
+								<td><a><button type="button" class="btn btn-secondary" disabled>Issue</button></a></td>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</tr>
 			</c:forEach>
 		</tbody>

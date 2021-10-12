@@ -22,6 +22,6 @@ public class BookCommandLineRunner implements CommandLineRunner {
         dao.save(new Book("9780143118336", "New Penguin Parallel Text", "Michael Emmerich", "Penguin Books; Bilingual edition", "English", 272, 1));
         dao.save(new Book("9780253211101", "Oral Epics from Africa", "John Johnson, Sir, Stephen Paterson Belcher" , "Indiana University Press", "English", 99, 2));
     }
-
+    
 }
 
