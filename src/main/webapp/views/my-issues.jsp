@@ -34,7 +34,7 @@
 				<tr>
 					<td>${issue.isbn}</td>
 					<td>${issue.title}</td>
-					<td>${issue.dateOfIssue}</td>
+					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.dateOfIssue}" /></td>
 					<td>${issue.duration}D</td>
 					
 				</tr>

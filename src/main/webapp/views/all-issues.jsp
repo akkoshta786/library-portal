@@ -38,7 +38,7 @@
 					<td>${issue.email}</td>
 					<td>${issue.isbn}</td>
 					<td>${issue.title}</td>
-					<td>${issue.dateOfIssue}</td>
+					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.dateOfIssue}" /></td>
 					<td>${issue.duration}D</td>
 					<td><button type="button" class="btn btn-success return-button" id="${issue.issueId }">Return</button></td>
 					
