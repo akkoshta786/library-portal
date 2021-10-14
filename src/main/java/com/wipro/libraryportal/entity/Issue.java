@@ -1,5 +1,6 @@
 package com.wipro.libraryportal.entity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class Issue {
 	private Date dateOfIssue;
 	
 	@NotNull
-	private int duration;
+	private Date returnDate;
 	
 	@Column(nullable = false)
     private int status;
@@ -49,7 +50,7 @@ public class Issue {
 		this.memberId = memberId;
 		this.isbn = isbn;
 		this.dateOfIssue = new Date();
-		this.duration = duration;
+		this.returnDate = this.addDays(dateOfIssue, duration);
 		this.status = 1;
 	}
 
@@ -94,14 +95,16 @@ public class Issue {
 	}
 
 	
-	public int getDuration() {
-		return duration;
+
+	public Date getReturnDate() {
+		return returnDate;
 	}
 
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
 	}
+
 
 	public int getStatus() {
 		return status;
@@ -130,6 +133,13 @@ public class Issue {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	private Date addDays(Date now, int days) {
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(now); 
+		c.add(Calendar.DATE, days);
+		return c.getTime();
 	}
 
 

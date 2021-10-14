@@ -26,7 +26,7 @@
 		      	<th scope="col">ISBN</th>
 		      	<th scope="col">Title</th>
 		      	<th scope="col">Issued on</th>
-		      	<th scope="col">Return in</th>
+		      	<th scope="col">Return by</th>
 		    </tr>
 		</thead>
 		<tbody>
@@ -35,7 +35,7 @@
 					<td>${issue.isbn}</td>
 					<td>${issue.title}</td>
 					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.dateOfIssue}" /></td>
-					<td>${issue.duration}D</td>
+					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.returnDate}" /></td>
 					
 				</tr>
 			</c:forEach>

@@ -9,17 +9,17 @@ public class UserBookDto {
 	private String isbn;
 	private String title;
 	private Date dateOfIssue;
-	private int duration;
+	private Date returnDate;
 
 
-	public UserBookDto(long issueId, String email, String isbn, String title, Date dateOfIssue, int duration) {
+	public UserBookDto(long issueId, String email, String isbn, String title, Date dateOfIssue, Date returnDate) {
 		super();
 		this.issueId = issueId;
 		this.email = email;
 		this.isbn = isbn;
 		this.title = title;
 		this.dateOfIssue = dateOfIssue;
-		this.duration = duration;
+		this.returnDate = returnDate;
 	}
 
 
@@ -74,23 +74,21 @@ public class UserBookDto {
 	}
 
 
-	public int getDuration() {
-		return duration;
+	public Date getReturnDate() {
+		return returnDate;
 	}
 
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
 	}
 
 
 	@Override
 	public String toString() {
 		return "UserBookDto [issueId=" + issueId + ", email=" + email + ", isbn=" + isbn + ", title=" + title
-				+ ", dateOfIssue=" + dateOfIssue + ", duration=" + duration + "]";
+				+ ", dateOfIssue=" + dateOfIssue + ", returnDate=" + returnDate + "]";
 	}
 
-
-	
 	
 }

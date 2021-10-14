@@ -6,15 +6,15 @@ public class MyIssue {
 	private String isbn;
 	private String title;
 	private Date dateOfIssue;
-	private int duration;
+	private Date returnDate;
 	
 	
-	public MyIssue(String isbn, String title, Date dateOfIssue, int duration) {
+	public MyIssue(String isbn, String title, Date dateOfIssue, Date returnDate) {
 		super();
 		this.isbn = isbn;
 		this.title = title;
 		this.dateOfIssue = dateOfIssue;
-		this.duration = duration;
+		this.returnDate = returnDate;
 	}
 
 
@@ -48,23 +48,24 @@ public class MyIssue {
 	}
 
 
-	public int getDuration() {
-		return duration;
+	public Date getReturnDate() {
+		return returnDate;
 	}
 
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
 	}
 
 
 	@Override
 	public String toString() {
-		return "MyIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", duration=" + duration
-				+ "]";
+		return "MyIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", returnDate="
+				+ returnDate + "]";
 	}
 
 
+	
 	
 	
 }

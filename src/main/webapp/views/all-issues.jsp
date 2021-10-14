@@ -28,7 +28,7 @@
 		      	<th scope="col">ISBN</th>
 		      	<th scope="col">Title</th>
 		      	<th scope="col">Issued on</th>
-		      	<th scope="col">Issued for</th>
+		      	<th scope="col">Issued until</th>
 		      	<th scope="col"></th>
 		    </tr>
 		</thead>
@@ -39,7 +39,7 @@
 					<td>${issue.isbn}</td>
 					<td>${issue.title}</td>
 					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.dateOfIssue}" /></td>
-					<td>${issue.duration}D</td>
+					<td><fmt:formatDate pattern = "MMM dd, yyyy" value = "${issue.returnDate}" /></td>
 					<td><button type="button" class="btn btn-success return-button" id="${issue.issueId }">Return</button></td>
 					
 				</tr>
@@ -51,11 +51,11 @@
 	  <div class="modal-dialog modal-sm">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h4 class="modal-title">Do you really want to return this book?</h4>
+	        <h4 class="modal-title">Are you sure member returned this book?</h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-success" id="modal-btn-yes">Yes, Return this book</button>
-	        <button type="button" class="btn btn-warning" id="modal-btn-no">No, it was by mistake</button>
+	        <button type="button" class="btn btn-success" id="modal-btn-yes">Yes, book returned</button>
+	        <button type="button" class="btn btn-warning" id="modal-btn-no">Not yet</button>
 	      </div>
 	    </div>
 	  </div>

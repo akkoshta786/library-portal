@@ -22,10 +22,10 @@ public interface IssueDao extends CrudRepository<Issue, String> {
 	@Query("SELECT i FROM Issue i WHERE i.memberId = ?1 AND i.isbn = ?2 AND i.status = 1")
 	List<Issue> findIssueByEmailAndIsbn(long memberId, String isbn);
 	
-	@Query("SELECT new com.wipro.libraryportal.dto.UserBookDto(i.issueId, u.email, i.isbn, b.title, i.dateOfIssue, i.duration) FROM User u JOIN Issue i ON u.memberId=i.memberId JOIN Book b ON i.isbn=b.isbn WHERE i.status = 1")
+	@Query("SELECT new com.wipro.libraryportal.dto.UserBookDto(i.issueId, u.email, i.isbn, b.title, i.dateOfIssue, i.returnDate) FROM User u JOIN Issue i ON u.memberId=i.memberId JOIN Book b ON i.isbn=b.isbn WHERE i.status = 1")
 	List<UserBookDto> fetchAllIssuesJoin();
 	
-	@Query("SELECT new com.wipro.libraryportal.dto.MyIssue(i.isbn, b.title, i.dateOfIssue, i.duration) FROM Book b JOIN Issue i ON b.isbn=i.isbn WHERE i.memberId = :memberId AND i.status = 1")
+	@Query("SELECT new com.wipro.libraryportal.dto.MyIssue(i.isbn, b.title, i.dateOfIssue, i.returnDate) FROM Book b JOIN Issue i ON b.isbn=i.isbn WHERE i.memberId = :memberId AND i.status = 1")
 	List<MyIssue> findMyIssues(@Param(value="memberId") long memberId); 
 	
 	@Transactional
