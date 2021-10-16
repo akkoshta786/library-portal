@@ -21,7 +21,7 @@ import com.wipro.libraryportal.service.UserService;
 
 
 @Controller
-public class myController {
+public class GeneralController {
 	
 	@Autowired
 	ApplicationService applicationService;
@@ -112,11 +112,12 @@ public class myController {
 	public String showMyIssuesPage(ModelMap model, HttpServletRequest req) {
 		if(req.getSession().getAttribute("USERNAME") != null){
 			User user = userService.getUserByEmail((String) req.getSession().getAttribute("USERNAME"));
-			System.err.println(user.getEmail() + user.getPassword() + user.getMemberId()+user.isAdmin());
 			model.addAttribute("myIssues", issueService.getMyIssues(user.getMemberId()));
 			return "my-issues";
+		}else {
+			return "login";
 		}
-		return null;
+		
 	}
 	
 
