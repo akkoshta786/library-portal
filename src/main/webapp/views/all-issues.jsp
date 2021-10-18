@@ -21,7 +21,7 @@
 	</c:choose>
 	
 	
-	<table class="table table-striped">
+	<table class="table table-striped" aria-describedby="allIssuesTable">
 		<thead class="thead-dark">
 			<tr>
 		    	<th scope="col">Member</th>

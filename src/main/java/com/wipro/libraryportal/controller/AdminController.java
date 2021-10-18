@@ -5,13 +5,12 @@ import java.util.Optional;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wipro.libraryportal.entity.Book;
 import com.wipro.libraryportal.entity.Issue;
@@ -21,7 +20,7 @@ import com.wipro.libraryportal.service.IssueService;
 import com.wipro.libraryportal.service.UserService;
 
 
-@Controller
+@RestController
 public class AdminController {
 
 	@Autowired
@@ -33,8 +32,8 @@ public class AdminController {
 	@Autowired
 	private IssueService issueService;
 	
-	@RequestMapping(value="postBook", method=RequestMethod.POST)
-	@ResponseBody
+
+	@PostMapping(value="postBook")
 	public int addBook(@RequestBody String json) {
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
@@ -56,9 +55,9 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value="issueBook", method = RequestMethod.POST)
-	@ResponseBody
+	@PostMapping(value="issueBook")
 	public int issueBook(@RequestBody String json) {
+		
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		
@@ -79,28 +78,26 @@ public class AdminController {
 			}else {
 				return 3;
 			}
-		}else {
-			return 4;
 		}
 		
+		return 0;
 	}
 	
 	
 	@GetMapping("all-issues")
-	public String showAllIssuesPage(ModelMap model) {
+	public ModelAndView showAllIssuesPage(ModelMap model) {
 		model.addAttribute("allIssuesList", issueService.getAllIssues());
-		return "all-issues";
+		return new ModelAndView("all-issues");
 	}
 	
-	@RequestMapping(value="returnBook", method = RequestMethod.POST)
-	@ResponseBody
+	@PostMapping(value="returnBook")
 	public int returnBook(@RequestBody String json) {
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		
 		long issueId = Long.parseLong((String) jsonObject.get("issueId"));
 		Optional<Issue> issue = issueService.findIssueById(issueId);
-		if(issue != null) {
+		if(issue.isPresent()) {
 			String isbn = issue.get().getIsbn();
 			issueService.updateIssueStatus(issueId);
 			bookService.updateBookCopies(isbn, 1);

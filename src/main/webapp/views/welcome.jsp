@@ -34,7 +34,7 @@
 
 	
 
-	<table class="table table-striped">
+	<table class="table table-striped" aria-describedby="allBooksTable">
 		<thead class="thead-dark">
 			<tr>
 		    	<th scope="col">ISBN</th>

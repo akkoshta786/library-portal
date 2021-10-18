@@ -1,99 +1,121 @@
 package com.wipro.libraryportal.controller;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
+import com.wipro.libraryportal.entity.User;
+import com.wipro.libraryportal.service.ApplicationService;
+import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.IssueService;
 import com.wipro.libraryportal.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.ModelMap;
 
-
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@ContextConfiguration(classes = {GeneralController.class})
+@ExtendWith(SpringExtension.class)
 class GeneralControllerTest {
+    @MockBean
+    private ApplicationService applicationService;
 
-	@Autowired
-	private MockMvc mockMvc;
+    @MockBean
+    private BookService bookService;
 
-	
-	@InjectMocks
-	private GeneralController generalController;
-	
-	@Mock
-	private UserService userService;
-	
-	@Mock
-	private IssueService issueService;
-	
-	@Mock
-	private MockHttpServletRequest request;
+    @Autowired
+    private GeneralController generalController;
 
-	@Test
-	void signUpPage() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/signup"))
-		.andDo(MockMvcResultHandlers.print())
-		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.view().name("signup"));
-		
-	}
-	
-	@Test
-	void existingUserSignupTest() throws Exception{
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/signup")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("email", "atul.koshta@wipro.com")
-				.param("password", "pass"))
-				.andExpect(MockMvcResultMatchers.view().name("signup"));
-	}
-	
-	@Test
-	void newUserSignupTest() throws Exception{
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/signup")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("email", "dummy.user@wipro.com")
-				.param("password", "pass"))
-				.andExpect(MockMvcResultMatchers.view().name("login"));
-	}
-	
-	@Test
-	void loginPage() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/login"))
-		.andDo(MockMvcResultHandlers.print())
-		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.view().name("login"));
-		
-	}
-	
-	@Test
-	void validUserLoginTest() throws Exception{
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/login")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("email", "atul.koshta@wipro.com")
-				.param("password", "pass"))
-				.andExpect(MockMvcResultMatchers.redirectedUrl("welcome"));
-	}
-	
-	@Test
-	void invalidUserLoginTest() throws Exception{
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/login")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("email", "dummy.user@wipro.com")
-				.param("password", "pass"))
-				.andExpect(MockMvcResultMatchers.view().name("login"));
-	}
+    @MockBean
+    private IssueService issueService;
 
+    @MockBean
+    private UserService userService;
 
+    @Test
+    void testShowSignupPage() {
+        ModelMap modelMap = new ModelMap();
+        assertEquals("signup", generalController.showSignupPage(modelMap));
+        assertEquals("", ((User) modelMap.get("user")).getEmail());
+        assertEquals("", ((User) modelMap.get("user")).getPassword());
+    }
+
+    @Test
+    void testLogin() throws Exception {
+        when(this.userService.isAdmin((String) any())).thenReturn(true);
+        when(this.userService.isValidUser((String) any(), (String) any())).thenReturn(true);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login")
+                .param("email", "foo")
+                .param("password", "foo");
+        MockMvcBuilders.standaloneSetup(this.generalController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.model().size(0))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:welcome"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("welcome"));
+    }
+
+    @Test
+    void testShowLoginPage() {
+        assertEquals("login", (new GeneralController()).showLoginPage());
+    }
+
+    @Test
+    void testRedirectToLogin() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
+        MockMvcBuilders.standaloneSetup(this.generalController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.model().size(0))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:login"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("login"));
+    }
+
+    @Test
+    void testRedirectToLogin2() throws Exception {
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/");
+        getResult.contentType("Not all who wander are lost");
+        MockMvcBuilders.standaloneSetup(this.generalController)
+                .build()
+                .perform(getResult)
+                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.model().size(0))
+                .andExpect(MockMvcResultMatchers.view().name("redirect:login"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("login"));
+    }
+
+    @Test
+    void testShowMyIssuesPage() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/my-issues");
+        MockMvcBuilders.standaloneSetup(this.generalController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().size(0))
+                .andExpect(MockMvcResultMatchers.view().name("login"))
+                .andExpect(MockMvcResultMatchers.forwardedUrl("login"));
+    }
+
+    @Test
+    void testShowMyIssuesPage2() throws Exception {
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/my-issues");
+        getResult.contentType("Not all who wander are lost");
+        MockMvcBuilders.standaloneSetup(this.generalController)
+                .build()
+                .perform(getResult)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().size(0))
+                .andExpect(MockMvcResultMatchers.view().name("login"))
+                .andExpect(MockMvcResultMatchers.forwardedUrl("login"));
+    }
 }
+

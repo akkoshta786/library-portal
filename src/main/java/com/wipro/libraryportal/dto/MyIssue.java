@@ -57,15 +57,6 @@ public class MyIssue {
 		this.returnDate = returnDate;
 	}
 
-
-	@Override
-	public String toString() {
-		return "MyIssue [isbn=" + isbn + ", title=" + title + ", dateOfIssue=" + dateOfIssue + ", returnDate="
-				+ returnDate + "]";
-	}
-
-
-	
 	
 	
 }

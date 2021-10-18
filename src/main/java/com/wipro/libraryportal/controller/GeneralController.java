@@ -8,9 +8,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.wipro.libraryportal.dto.UserDto;
 import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
 import com.wipro.libraryportal.service.BookService;
@@ -35,9 +35,14 @@ public class GeneralController {
 	@Autowired
 	IssueService issueService;
 	
+	private static final String SESSION_KEY_USERNAME = "USERNAME";
+	private static final String SIGNUP_PAGE = "signup";
+	private static final String LOGIN_PAGE = "login";
+	private static final String MESSAGE = "message";
 	
 	
-	@RequestMapping(value="")
+	
+	@GetMapping(value="/")
 	public String redirectToLogin() {
 		return "redirect:login";
 	}
@@ -45,19 +50,19 @@ public class GeneralController {
 	@GetMapping(value="signup")
 	public String showSignupPage(ModelMap model) {
 		model.put("user", new User("", ""));
-		return "signup";
+		return SIGNUP_PAGE;
 	}
 	
 	@PostMapping("signup")
-	public String register(@ModelAttribute("user") User userx, ModelMap model) {
+	public String register(@ModelAttribute("user") UserDto userx, ModelMap model) {
 		
 		/* 
 		 	Check for email validity
 		  	redirect to sign-up page again if found invalid
 		*/
 		if(!applicationService.isValidEmail(userx.getEmail())) {
-			model.addAttribute("message", "Invalid email provided!");
-			return "signup";
+			model.addAttribute(MESSAGE, "Invalid email provided!");
+			return SIGNUP_PAGE;
 		}
 		
 		/*
@@ -70,19 +75,19 @@ public class GeneralController {
 			 	User registered successfully
 				redirecting to login page
 			*/
-			model.addAttribute("message", "User registered successfully. Sign in to access portal");
-			return "login";
+			model.addAttribute(MESSAGE, "User registered successfully. Sign in to access portal");
+			return LOGIN_PAGE;
 		}
 		
 		
 		// Something went wrong, user didn't got registered
-		model.addAttribute("message", "Username already taken!");
-		return "signup";
+		model.addAttribute(MESSAGE, "Username already taken!");
+		return SIGNUP_PAGE;
 	}
 	
 	@GetMapping(value="login")
 	public String showLoginPage() {
-		return "login";
+		return LOGIN_PAGE;
 	}
 	
 	@PostMapping("login")
@@ -92,17 +97,17 @@ public class GeneralController {
 		 	else, create session and redirect to home page
 		 */
 		if(!userService.isValidUser(email, password)) {
-			model.addAttribute("message", "Invalid credential provided!");
-			return "login";
+			model.addAttribute(MESSAGE, "Invalid credential provided!");
+			return LOGIN_PAGE;
 		}
 		
-		req.getSession().setAttribute("USERNAME", email);
+		req.getSession().setAttribute(SESSION_KEY_USERNAME, email);
 		req.getSession().setAttribute("ADMIN", userService.isAdmin(email));
 		return "redirect:welcome";
 	}
 	
 	@GetMapping("welcome")
-	private String showWelcomePage(ModelMap model) {
+	public String showWelcomePage(ModelMap model) {
 		model.addAttribute("booksList", bookService.getAllBooks());
 		return "welcome";
 	}
@@ -110,12 +115,12 @@ public class GeneralController {
 	
 	@GetMapping("my-issues")
 	public String showMyIssuesPage(ModelMap model, HttpServletRequest req) {
-		if(req.getSession().getAttribute("USERNAME") != null){
-			User user = userService.getUserByEmail((String) req.getSession().getAttribute("USERNAME"));
+		if(req.getSession().getAttribute(SESSION_KEY_USERNAME) != null){
+			User user = userService.getUserByEmail((String) req.getSession().getAttribute(SESSION_KEY_USERNAME));
 			model.addAttribute("myIssues", issueService.getMyIssues(user.getMemberId()));
 			return "my-issues";
 		}else {
-			return "login";
+			return LOGIN_PAGE;
 		}
 		
 	}

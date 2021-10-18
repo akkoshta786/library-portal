@@ -20,7 +20,7 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<table class="table table-striped">
+	<table class="table table-striped" aria-describedby="myIssuesTable">
 		<thead class="thead-dark">
 			<tr>
 		      	<th scope="col">ISBN</th>

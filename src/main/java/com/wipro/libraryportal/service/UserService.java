@@ -18,7 +18,7 @@ public class UserService {
 	List<User> users;
 	
 	public User getUserByEmail(String email) {
-		users = (List<User>) dao.findByEmail(email);
+		users = dao.findByEmail(email);
 		if(!users.isEmpty()) {
 			return users.get(0);
 		}
@@ -37,12 +37,8 @@ public class UserService {
 	
 	public boolean isValidUser(String email, String pwd) {
 		users = dao.findByEmail(email);
-		if(!users.isEmpty()) {
-			if(BCrypt.checkpw(pwd, users.get(0).getPassword())) {
-				return true;
-			}
-		}
-		return false;
+		return !users.isEmpty() && BCrypt.checkpw(pwd, users.get(0).getPassword());
+	
 	}
 	
 	public boolean isAdmin(String email) {

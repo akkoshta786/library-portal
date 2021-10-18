@@ -83,12 +83,5 @@ public class UserBookDto {
 		this.returnDate = returnDate;
 	}
 
-
-	@Override
-	public String toString() {
-		return "UserBookDto [issueId=" + issueId + ", email=" + email + ", isbn=" + isbn + ", title=" + title
-				+ ", dateOfIssue=" + dateOfIssue + ", returnDate=" + returnDate + "]";
-	}
-
 	
 }

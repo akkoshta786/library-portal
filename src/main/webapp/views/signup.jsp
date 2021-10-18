@@ -13,9 +13,11 @@
 		<h2 class="active"> Sign Up </h2>
 		<form:form action="signup" method="post" modelAttribute="user">
 			<fieldset class="form-group">
+				<legend></legend>
 				<form:input path="email" placeholder="email" required="required"/>
 			</fieldset>
 			<fieldset class="form-group">
+				<legend></legend>
 				<form:password path="password" placeholder="password" required="required"/>
 			</fieldset>
 			

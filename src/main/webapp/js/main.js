@@ -103,8 +103,8 @@ $(document).ready(function(){
 			$.ajax({
 			
 				type: "POST",
-				contentType: "application/json",
 				url: "issueBook",
+				contentType: "application/json",
 				data: json,
 				dataType: 'json',
 				success: function(response){
@@ -127,7 +127,7 @@ $(document).ready(function(){
 					}
 				},
 				error: function(response){
-					alert(response);
+					alert("Some error occured");
 				}
 			});
 			
