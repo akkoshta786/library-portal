@@ -24,7 +24,7 @@
 			<button type="submit" class="btn btn-primary">Register</button>
 		</form:form>
 		<br>
-		<h5> Already a user? <a href="/">Log In</a> </h5>
+		<h5> Already a user? <a href="login">Log In</a> </h5>
 	</div>
 </div>
 
