@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	var buttons = $('.delete-button');
+	var deleteBookButton = $('#delete-book');
+	var deleteBookIsbn;
 	
 	if(localStorage.getItem("bookAdded")){
 		$.toast({
@@ -7,20 +10,25 @@ $(document).ready(function(){
 		    showHideTransition: 'slide',
 		    icon: 'success'
 		})
-		localStorage.clear();
 	}
 	
-	/**
+	if(localStorage.getItem('maintainState')){
+		$.toast({
+		    heading: 'Message',
+		    text: 'Book deleted successfully',
+		    showHideTransition: 'slide',
+		    icon: 'success'
+		})
+		toggleButtonState();
+	}
+	
+	localStorage.clear();
+	
+	/*
 		JAVASCRIPT FOR ADD BOOK(ADMIN)
-	 */
-	/* 
-		Gets called when admin clicks on 'Add' to add book
 	*/
 	
-	$('#exampleModal').on('show.bs.modal', function () {
-
-		// Gets executed when admin submits new book data in add book form
-	  	$( "#formdata" ).submit(function( event ) {
+	$( "#formdata" ).submit(function( event ) {
 		
 		var $items = $('#isbn, #title, #author, #publisher, #language, #numberOfPages, #copies');
 		var obj = {}
@@ -68,7 +76,12 @@ $(document).ready(function(){
 				}
 			},
 			error: function(response){
-				alert("Some error has occured!");
+				$.toast({
+				    heading: 'Error',
+				    text: 'Some unexpected error has occured<br>Please contact administrator',
+				    showHideTransition: 'slide',
+				    icon: 'error'
+				})
 			}
 		});
 	
@@ -84,16 +97,80 @@ $(document).ready(function(){
 
 		event.preventDefault();
 		
-		});	
-
-	});
+	});	
+	
 	
 	/*
-		JAVASCRIPT FOR ISSUEING THE BOOK
-	*/ 
-	/* 
-		Grabs the issue button id (=book isbn) when admin clicks on issue button
-		storing book isbn in 'issueButtonId' variable
+		JAVASCRIPT FOR DELETE BOOK(ADMIN)
+	  
+	*/
+	deleteBookButton.on('click', function(){
+		toggleButtonState();
+	});
+	
+	var modalConfirm = function(callback){ 
+	buttons.on("click", function(){
+		deleteBookIsbn = this.id;
+		$("#delete-book-confirm-modal").modal('show');
+	});
+	
+	$("#delete-book-yes").on("click", function(){
+		callback(true);
+	    $("#delete-book-confirm-modal").modal('hide');
+	  });
+	  
+	$("#delete-book-no").on("click", function(){
+		callback(false);
+	    $("#delete-book-confirm-modal").modal('hide');
+	  });
+	};
+	
+	modalConfirm(function(confirm){
+	  if(confirm){
+	  	
+		var obj = {'deleteBookIsbn': deleteBookIsbn}
+		var json = JSON.stringify(obj);
+		
+		$.ajax({
+		
+			type: "POST",
+			url: "deleteBook",
+			contentType: "application/json",
+			data: json,
+			dataType: 'json',
+			success: function(response){
+				switch(response){
+					case 0:
+						$.toast({
+						    heading: 'Warning',
+						    text: 'Minimum 1 copy of this book is currently issued<br>Acquire all copies before deleting',
+						    showHideTransition: 'slide',
+						    icon: 'warning'
+						})
+						break;
+					case 1:
+						localStorage.setItem('maintainState', true);
+						location.reload();
+						break;
+					default:
+						pass;
+				}
+			},
+			error: function(error){
+				$.toast({
+				    heading: 'Error',
+				    text: 'Some unexpected error has occured<br>Please contact administrator',
+				    showHideTransition: 'slide',
+				    icon: 'error'
+				})
+			}
+		});
+	 }
+	});
+	
+	
+	/*
+		JAVASCRIPT FOR ISSUEING THE BOOK 
 	*/
 	var issueButtonId;
 	$('.issue-button').on('click', function(){
@@ -101,15 +178,12 @@ $(document).ready(function(){
 		
 	});
 	
-	/*
-		Function for showing the pop-up to issue a book
-		and sending POST request to controller
-	*/
+
 	$('#issueModal').on('show.bs.modal', function () {
-		$(document.getElementById('issue-isbn')).val(issueButtonId);
+		$('#issue-isbn').val(issueButtonId);
 	});
 	
-	$( "#issueFormData" ).submit(function( event ) {
+	$( "#issueFormData" ).submit(function(event) {
 		var email = $('#email').val().toLowerCase();
 		var duration = $('#duration').val();
 		
@@ -173,11 +247,23 @@ $(document).ready(function(){
 				}
 			},
 			error: function(response){
-				alert("Some error occured");
+				$.toast({
+				    heading: 'Error',
+				    text: 'Some unexpected error has occured<br>Please contact administrator',
+				    showHideTransition: 'slide',
+				    icon: 'error'
+				})
 			}
 		});
+		$('#email').val('');
+		$('#duration').val(7);
+		event.preventDefault();
 		
 	});
+	
+	$('#issue-model-close-button').on('click', function(){
+		location.reload();
+	})
 	
 	
 	// Continiously alerts the user about validity of ISBN entered
@@ -203,46 +289,51 @@ $(document).ready(function(){
 	// This function checks validity to given ISBN
 	function validateISBN(subject){
 		if (regex.test(subject)) {
-	    // Remove non ISBN digits, then split into an array
-	    var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
-	    // Remove the final ISBN digit from `chars`, and assign it to `last`
-	    var last = chars.pop();
-	    var sum = 0;
-	    var check, i;
+		    // Remove non ISBN digits, then split into an array
+		    var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+		    // Remove the final ISBN digit from `chars`, and assign it to `last`
+		    var last = chars.pop();
+		    var sum = 0;
+		    var check, i;
 	
-	    if (chars.length == 9) {
-	        // Compute the ISBN-10 check digit
-	        chars.reverse();
-	        for (i = 0; i < chars.length; i++) {
-	            sum += (i + 2) * parseInt(chars[i], 10);
-	        }
-	        check = 11 - (sum % 11);
-	        if (check == 10) {
-	            check = "X";
-	        } else if (check == 11) {
-	            check = "0";
-	        }
-	    } else {
-	        // Compute the ISBN-13 check digit
-	        for (i = 0; i < chars.length; i++) {
-	            sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
-	        }
-	        check = 10 - (sum % 10);
-	        if (check == 10) {
-	            check = "0";
-	        }
-	    }
+		    if(chars.length == 9) {
+		    	// Compute the ISBN-10 check digit
+		        chars.reverse();
+		        for (i = 0; i < chars.length; i++) {
+		            sum += (i + 2) * parseInt(chars[i], 10);
+		        }
+		        check = 11 - (sum % 11);
+		        if (check == 10) {
+		            check = "X";
+		        }else if (check == 11) {
+		            check = "0";
+		        }
+			}else{
+		        // Compute the ISBN-13 check digit
+		        for (i = 0; i < chars.length; i++) {
+		            sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+		        }
+		        check = 10 - (sum % 10);
+		        if (check == 10) {
+		            check = "0";
+		        }
+		    }
 	
-	    if (check == last) {
-	        return 1;
-	    } else {
-	       return 0;
-	    }
-	} else {
-	    return 0;
+		    if (check == last) {
+		        return 1;
+		    }else{
+		       return 0;
+		    }
+		}else{
+	    	return 0;
+		}
 	}
-	}
 	
+	function toggleButtonState(){
+		deleteBookButton.find('.fa-check,.fa-trash').toggleClass('fa-check').toggleClass('fa-trash');
+		buttons.toggleClass('btn-danger').toggleClass('btn-secondary');
+		buttons.prop('disabled', function(i, v) { return !v; });
+	}
 
 });
 

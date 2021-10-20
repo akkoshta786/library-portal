@@ -83,7 +83,7 @@
 								<td><a><button type="button" class="btn btn-secondary issue-button-disabled" disabled>Issue</button></a></td>
 							</c:otherwise>
 						</c:choose>
-						<td><button type="button" class="btn btn-secondary delete-button" id="${book.isbn}" disabled><i class="fa fa-times"></i></button></td>
+						<td><button type="button" class="btn btn-secondary delete-button" id="${book.isbn}" disabled><em class="fa fa-times"></em></button></td>
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -93,4 +93,3 @@
 	
 <%@include file="common/footer.jspf" %>
 <script src="js/main.js"></script>
-<script src="js/admin.js"></script>

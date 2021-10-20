@@ -62,5 +62,4 @@
 	</div>
 
 <%@include file="common/footer.jspf" %>
-<script src="js/main.js"></script>
-<script type="text/javascript" src="js/all-issues.js"></script>
+<script src="js/all-issues.js"></script>

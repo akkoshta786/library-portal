@@ -58,7 +58,12 @@ $(document).ready(function(){
 				}
 			},
 			error: function(response){
-				alert("Opps! Some error occured");
+				$.toast({
+				    heading: 'Error',
+				    text: 'Some unexpected error has occured<br>Please contact administrator',
+				    showHideTransition: 'slide',
+				    icon: 'error'
+				})
 			}
 		});
 	 }

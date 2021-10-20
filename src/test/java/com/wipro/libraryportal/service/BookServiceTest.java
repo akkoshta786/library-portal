@@ -131,5 +131,27 @@ class BookServiceTest {
         verify(this.bookDao).findByIsbn((String) any());
         assertTrue(this.bookService.getAllBooks().isEmpty());
     }
+    
+    @Test
+    void testDeleteByIsbn() {
+        Book book = new Book();
+        book.setPublisher("Publisher");
+        book.setIssues(new HashSet<Issue>());
+        book.setLanguage("en");
+        book.setIsbn("7986451320195");
+        book.setTitle("AutoBiography");
+        book.setAuthor("Anonymous Author");
+        book.setCopies(0);
+        book.setNumberOfPages(10);
+
+        ArrayList<Book> bookList = new ArrayList<Book>();
+        bookList.add(book);
+        doNothing().when(this.bookDao).delete((Book) any());
+        when(this.bookDao.findByIsbn((String) any())).thenReturn(bookList);
+        assertTrue(this.bookService.deleteByIsbn("Isbn"));
+        verify(this.bookDao).delete((Book) any());
+        verify(this.bookDao).findByIsbn((String) any());
+        assertTrue(this.bookService.getAllBooks().isEmpty());
+    }
 }
 

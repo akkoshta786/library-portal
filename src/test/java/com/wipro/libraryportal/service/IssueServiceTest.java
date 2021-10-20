@@ -221,5 +221,52 @@ class IssueServiceTest {
         verify(this.issueDao).updateIssueStatus(anyLong());
         assertTrue(this.issueService.getAllIssues().isEmpty());
     }
+    
+    @Test
+    void testCurrentlyIssued() {
+        when(this.issueDao.findAllIssuesByIsbn((String) any())).thenReturn(new ArrayList<Issue>());
+        assertFalse(this.issueService.currentlyIssued("Isbn"));
+        verify(this.issueDao).findAllIssuesByIsbn((String) any());
+        assertTrue(this.issueService.getAllIssues().isEmpty());
+    }
+
+    @Test
+    void testCurrentlyIssued2() {
+        Book book = new Book();
+        book.setPublisher("Self Publisher");
+        book.setIssues(new HashSet<Issue>());
+        book.setLanguage("English");
+        book.setIsbn("Isbn2021");
+        book.setTitle("Everyone has a story");
+        book.setAuthor("Savi Sharma");
+        book.setCopies(0);
+        book.setNumberOfPages(10);
+
+        User user = new User();
+        user.setMemberId(123L);
+        user.setEmail("cicd@cicd.com");
+        user.setPassword("Hello?123");
+        user.setIssues(new HashSet<Issue>());
+        user.setAdmin(true);
+
+        Issue issue = new Issue();
+        issue.setIsbn("Isbn2001");
+        issue.setIssueId(123L);
+        issue.setBook(book);
+        issue.setStatus(0);
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        issue.setDateOfIssue(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        issue.setUser(user);
+        issue.setMemberId(123L);
+        LocalDateTime atStartOfDayResult1 = LocalDate.of(1970, 1, 1).atStartOfDay();
+        issue.setReturnDate(Date.from(atStartOfDayResult1.atZone(ZoneId.of("UTC")).toInstant()));
+
+        ArrayList<Issue> issueList = new ArrayList<Issue>();
+        issueList.add(issue);
+        when(this.issueDao.findAllIssuesByIsbn((String) any())).thenReturn(issueList);
+        assertTrue(this.issueService.currentlyIssued("Isbn"));
+        verify(this.issueDao).findAllIssuesByIsbn((String) any());
+        assertTrue(this.issueService.getAllIssues().isEmpty());
+    }
 }
 

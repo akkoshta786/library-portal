@@ -1,6 +1,8 @@
 package com.wipro.libraryportal.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -130,5 +132,18 @@ class AdminControllerTest {
 				.content(json))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
+	
+	
+	
+	@ParameterizedTest
+	@ValueSource(strings = "{\"deleteBookIsbn\": \"9781906523374\"}")
+	void deleteIssuedBookTest(String json) throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/deleteBook")
+				.sessionAttr("USERNAME", "atul.koshta@wipro.com")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+	
 
 }

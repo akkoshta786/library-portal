@@ -23,10 +23,10 @@
 	      	
 					<c:if test="${fn:endsWith(pageContext.request.requestURI, '/welcome.jsp')}">
 					    <li>
-      						<button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal'><i class="fa fa-plus"></i></button>
+      						<button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal'><em class="fa fa-plus"></em></button>
 		    			</li>
 		    			<li>
-		    				<button type='button' class='btn btn-info' id="delete-book"><i class="fa fa-trash"></i></button>
+		    				<button type='button' class='btn btn-info' id="delete-book"><em class="fa fa-trash"></em></button>
 		    			</li>
 					</c:if>
 	      			
@@ -35,6 +35,6 @@
       	</c:if>
     </ul>
    	<h6> <% out.print(session.getAttribute("USERNAME")); %> <span class="badge badge-secondary"></span></h6>
-   	<a class="btn btn-primary" href="logout"><i class="fa fa-sign-out">Logout</i></a>
+   	<a class="btn btn-primary" href="logout"><em class="fa fa-sign-out">Logout</em></a>
   </div>
 </nav>
