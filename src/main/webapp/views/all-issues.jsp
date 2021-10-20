@@ -51,7 +51,7 @@
 	  <div class="modal-dialog modal-sm">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h4 class="modal-title">Are you sure member returned this book?</h4>
+	        <h6 class="modal-title">Are you sure member returned this book?</h6>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-success" id="modal-btn-yes">Yes, book returned</button>

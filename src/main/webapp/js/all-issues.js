@@ -1,4 +1,13 @@
 $(document).ready(function(){
+	if(localStorage.getItem("bookReturned")){
+		$.toast({
+		    heading: 'Success',
+		    text: 'Book returned successfully',
+		    showHideTransition: 'slide',
+		    icon: 'success'
+		})
+		localStorage.clear();
+	}
 	var issueId;
 	$(".return-button").click(function(){
 		issueId = this.id;	
@@ -36,11 +45,16 @@ $(document).ready(function(){
 			success: function(response){
 				switch(response){
 					case 1:
-						alert("Book returned successfully.");
+						localStorage.setItem("bookReturned", true);
 						location.reload();
 						break;
 					default:
-						alert("Unsuccessful attempt to return book!");
+						$.toast({
+						    heading: 'Failure',
+						    text: 'Failed to return book!',
+						    showHideTransition: 'slide',
+						    icon: 'error'
+						})
 				}
 			},
 			error: function(response){

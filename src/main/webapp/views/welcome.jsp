@@ -1,7 +1,6 @@
 
 <%@include file="common/header.jspf" %>
 <%@include file="common/navigation.jspf" %>
-
 <title>HOME</title>
 </head>
 <body>
@@ -25,6 +24,19 @@
 		<c:when test = "${not empty sessionScope['ADMIN']}">
 			<c:if test="${sessionScope['ADMIN']}">
 				<c:import url="issue-book.jspf" />
+				<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteBookConfirmation" aria-hidden="true" id="delete-book-confirm-modal">
+				  <div class="modal-dialog modal-sm">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h6 class="modal-title">Remove this book permanently from library?</h6>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-success" id="delete-book-yes">Yes</button>
+				        <button type="button" class="btn btn-warning" id="delete-book-no">No</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 			</c:if>
 		</c:when>
 		<c:otherwise>
@@ -77,6 +89,8 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	
 <%@include file="common/footer.jspf" %>
 <script src="js/main.js"></script>
 <script src="js/admin.js"></script>

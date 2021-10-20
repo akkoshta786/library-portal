@@ -1,5 +1,15 @@
 $(document).ready(function(){
 	
+	if(localStorage.getItem("bookAdded")){
+		$.toast({
+		    heading: 'Success',
+		    text: 'Book added to library',
+		    showHideTransition: 'slide',
+		    icon: 'success'
+		})
+		localStorage.clear();
+	}
+	
 	/**
 		JAVASCRIPT FOR ADD BOOK(ADMIN)
 	 */
@@ -37,18 +47,28 @@ $(document).ready(function(){
 			success: function(response){
 				switch(response){
 					case 0:
-						alert("Book with given ISBN already exist.");
+						$.toast({
+						    heading: 'Failure',
+						    text: 'Book with given ISBN already exist',
+						    showHideTransition: 'slide',
+						    icon: 'error'
+						})
 						break;
 					case 1:
-						alert("Book added to library.")
+						localStorage.setItem("bookAdded", true);
 						location.reload();
 						break;
 					default:
-						alert("Unsuccessful attempt to add book!");
+						$.toast({
+						    heading: 'Failure',
+						    text: 'Failed to add book',
+						    showHideTransition: 'slide',
+						    icon: 'error'
+						})
 				}
 			},
 			error: function(response){
-				alert("Book with given ISBN already available");
+				alert("Some error has occured!");
 			}
 		});
 	
@@ -87,50 +107,74 @@ $(document).ready(function(){
 	*/
 	$('#issueModal').on('show.bs.modal', function () {
 		$(document.getElementById('issue-isbn')).val(issueButtonId);
-  		$( "#issueFormData" ).submit(function( event ) {
-			var email = $('#email').val().toLowerCase();
-			var duration = $('#duration').val();
-			
-			var obj = {'email': email,
-						'isbn': issueButtonId,
-						'duration': duration
-			};
-			
-			var json = JSON.stringify(obj);
-			
-			
-			// POST REQUEST TO ISSUE BOOK
-			$.ajax({
-			
-				type: "POST",
-				url: "issueBook",
-				contentType: "application/json",
-				data: json,
-				dataType: 'json',
-				success: function(response){
-					switch(response){
-						case 1:
-							alert(issueButtonId+" issued to "+email);
-							location.reload();
-							break;
-						case 2:
-							alert("No more copies of this book available. Try later");
-							break;
-						case 3:
-							alert("User has not returned this book yet");
-							break;
-						case 4:
-							alert(email+" is not a member!");
-							break;
-						default:
-							alert("Unauthorized access!");
-					}
-				},
-				error: function(response){
-					alert("Some error occured");
+	});
+	
+	$( "#issueFormData" ).submit(function( event ) {
+		var email = $('#email').val().toLowerCase();
+		var duration = $('#duration').val();
+		
+		var obj = {'email': email,
+					'isbn': issueButtonId,
+					'duration': duration
+		};
+		
+		var json = JSON.stringify(obj);
+		
+		
+		// POST REQUEST TO ISSUE BOOK
+		$.ajax({
+		
+			type: "POST",
+			url: "issueBook",
+			contentType: "application/json",
+			data: json,
+			dataType: 'json',
+			success: function(response){
+				switch(response){
+					case 1:
+						$.toast({
+						    heading: 'Success',
+						    text: issueButtonId+" issued to "+email,
+						    showHideTransition: 'slide',
+						    icon: 'success'
+						})
+						break;
+					case 2:
+						$.toast({
+						    heading: 'Info',
+						    text: 'No more copies of this book available, try later',
+						    showHideTransition: 'slide',
+						    icon: 'info'
+						})
+						break;
+					case 3:
+						$.toast({
+						    heading: 'Warning',
+						    text: 'User has not returned this book yet',
+						    showHideTransition: 'slide',
+						    icon: 'warning'
+						})
+						break;
+					case 4:
+						$.toast({
+						    heading: 'Failure',
+						    text: email+" is not a member!",
+						    showHideTransition: 'slide',
+						    icon: 'error'
+						})
+						break;
+					default:
+						$.toast({
+						    heading: 'Failure',
+						    text: 'Unauthorized access!',
+						    showHideTransition: 'slide',
+						    icon: 'error'
+						})
 				}
-			});
-			
+			},
+			error: function(response){
+				alert("Some error occured");
+			}
 		});
 		
 	});

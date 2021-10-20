@@ -57,7 +57,7 @@ public class AdminController {
 	
 	@PostMapping(value="issueBook")
 	public int issueBook(@RequestBody String json) {
-		
+		int result = 0;
 		Object obj = JSONValue.parse(json);
 		JSONObject jsonObject = (JSONObject) obj;
 		
@@ -71,16 +71,16 @@ public class AdminController {
 			if(!issueService.checkBookAvailibilityWithMember(memberId, isbn)) {
 				if(bookService.updateBookCopies(isbn, -1)) {
 					issueService.saveIssue(new Issue(memberId, isbn, duration));
-					return 1;
+					result = 1;
 				}else {
-					return 2;
+					result = 2;
 				}
 			}else {
-				return 3;
+				result = 3;
 			}
 		}
 		
-		return 0;
+		return result;
 	}
 	
 	
@@ -111,7 +111,6 @@ public class AdminController {
 		JSONObject jsonObject = (JSONObject) obj;
 		String deleteBookIsbn = (String) jsonObject.get("deleteBookIsbn");
 		if(!issueService.currentlyIssued(deleteBookIsbn)) {
-			System.err.println("Reached");
 			bookService.deleteByIsbn(deleteBookIsbn);
 			return 1;
 		}
