@@ -42,4 +42,9 @@ public class IssueService {
 		issueDao.updateIssueStatus(issueId);
 	}
 	
+	public boolean currentlyIssued(String isbn){
+		return !issueDao.findAllIssuesByIsbn(isbn).isEmpty();
+	}
+	
+	
 }

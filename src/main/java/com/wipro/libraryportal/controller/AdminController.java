@@ -105,4 +105,18 @@ public class AdminController {
 		return 1;
 	}
 	
+	@PostMapping("deleteBook")
+	public int deleteBook(@RequestBody String json) {
+		Object obj = JSONValue.parse(json);
+		JSONObject jsonObject = (JSONObject) obj;
+		String deleteBookIsbn = (String) jsonObject.get("deleteBookIsbn");
+		if(!issueService.currentlyIssued(deleteBookIsbn)) {
+			System.err.println("Reached");
+			bookService.deleteByIsbn(deleteBookIsbn);
+			return 1;
+		}
+		return 0;
+		
+	}
+	
 }

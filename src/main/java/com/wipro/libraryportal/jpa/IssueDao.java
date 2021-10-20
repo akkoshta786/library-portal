@@ -15,6 +15,9 @@ import com.wipro.libraryportal.dto.UserBookDto;
 import com.wipro.libraryportal.entity.Issue;
 
 public interface IssueDao extends CrudRepository<Issue, String> {
+	@Query("SELECT i FROM Issue i WHERE i.isbn = ?1 AND i.status = 1")
+	List<Issue> findAllIssuesByIsbn(String isbn);
+	
 	Optional<Issue> findByIssueId(long issueId);
 	
 	List<Issue> findByMemberId(long memberId);
@@ -32,4 +35,5 @@ public interface IssueDao extends CrudRepository<Issue, String> {
 	@Modifying
 	@Query("UPDATE Issue i set i.status = 0 WHERE i.issueId = :issueId")
 	void updateIssueStatus(@Param(value="issueId") long issueId);
+	
 }

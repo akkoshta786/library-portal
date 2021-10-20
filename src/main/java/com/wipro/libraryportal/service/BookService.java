@@ -37,6 +37,9 @@ public class BookService {
 		return false;
 	}
 	
-	
+	public boolean deleteByIsbn(String isbn) {
+		bookDao.delete(bookDao.findByIsbn(isbn).get(0));
+		return true;
+	}
 	
 }

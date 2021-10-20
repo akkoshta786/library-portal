@@ -2,6 +2,7 @@ package com.wipro.libraryportal.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ public class Book {
 	@NotNull
 	private int copies;
 	
-	@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
 	private Set<Issue> issues;
 
 	public Book() {

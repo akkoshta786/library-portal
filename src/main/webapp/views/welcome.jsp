@@ -47,6 +47,7 @@
 		      	<c:if test="${sessionScope['ADMIN']}">
 						<th scope="col"></th>
 				</c:if>
+				<th scope="col"></th>
 		    </tr>
 		</thead>
 		<tbody>
@@ -64,11 +65,13 @@
 						<c:choose>
 							<c:when test="${book.copies > 0}">
 								<td><button type="button" class="btn btn-success issue-button" data-toggle='modal' data-target='#issueModal' id="${book.isbn}">Issue</button></td>
+								
 							</c:when>
 							<c:otherwise>
-								<td><a><button type="button" class="btn btn-secondary" disabled>Issue</button></a></td>
+								<td><a><button type="button" class="btn btn-secondary issue-button-disabled" disabled>Issue</button></a></td>
 							</c:otherwise>
 						</c:choose>
+						<td><button type="button" class="btn btn-secondary delete-button" id="${book.isbn}" disabled><i class="fa fa-times"></i></button></td>
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -76,3 +79,4 @@
 	</table>
 <%@include file="common/footer.jspf" %>
 <script src="js/main.js"></script>
+<script src="js/admin.js"></script>
