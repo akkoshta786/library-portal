@@ -221,7 +221,7 @@ class IssueServiceTest {
         verify(this.issueDao).updateIssueStatus(anyLong());
         assertTrue(this.issueService.getAllIssues().isEmpty());
     }
-    
+
     @Test
     void testCurrentlyIssued() {
         when(this.issueDao.findAllIssuesByIsbn((String) any())).thenReturn(new ArrayList<Issue>());

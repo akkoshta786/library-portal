@@ -15,7 +15,6 @@ class ApplicationServiceTest {
     @Autowired
     private ApplicationService applicationService;
 
-
     @Test
     void testIsValidEmail() {
         assertTrue(this.applicationService.isValidEmail("nachiketa.kumar149@gmail.com"));
@@ -24,4 +23,3 @@ class ApplicationServiceTest {
         assertFalse(this.applicationService.isValidEmail(null));
     }
 }
-

@@ -131,7 +131,7 @@ class BookServiceTest {
         verify(this.bookDao).findByIsbn((String) any());
         assertTrue(this.bookService.getAllBooks().isEmpty());
     }
-    
+
     @Test
     void testDeleteByIsbn() {
         Book book = new Book();
