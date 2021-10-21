@@ -14,24 +14,27 @@
 			<p>${message}</p>
 		</div>
 		<div id="formContent">
-	 		<h2 class="active"> Sign In </h2>
+	 		<h3 class="active"> Sign In </h3>
 			<form action="login" method="post">
 				<fieldset class="form-group">
+					<legend></legend>
 					<input type="text" name="email" class="form-control-plaintext" placeholder="email" />
 				</fieldset>
 				<fieldset class="form-group">
+					<legend></legend>
 					<input type="password" name="password" class="form-control-plaintext" placeholder="password" required="required"/>
 				</fieldset>
 				<button type="submit" class="btn btn-success">Log In</button>
 			</form>
 		    <br>
-		    <h5>New User? <a href="signup">Sign up</a></h5>
+		    <p>New User? <a href="signup">Sign up</a></p>
 		
 		    
 		    <div id="formFooter">
-		      <a class="underlineHover" href="#">Forgot Password?</a>
+		      <a class="underlineHover" href="forgot-password">Forgot Password?</a>
 		    </div>
 		</div>
 	</div>
-</body>
-</html>
+<%@include file="common/footer.jspf" %>
+<script src="webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="js/common.js"></script>

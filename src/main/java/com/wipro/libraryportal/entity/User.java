@@ -1,5 +1,6 @@
 package com.wipro.libraryportal.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -8,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
 public class User {
@@ -18,6 +22,9 @@ public class User {
 	
 	private String email;
 	private String password;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dob;
 
 	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean admin;
@@ -29,16 +36,18 @@ public class User {
 		super();
 	}
 
-	public User(String email, String password) {
+	public User(String email, String password, Date dob) {
 		super();
 		this.email = email;
 		this.password = password;
+		this.dob = dob;
 	}
 
-	public User(String email, String password, boolean admin) {
+	public User(String email, String password, Date dob, boolean admin) {
 		super();
 		this.email = email;
 		this.password = password;
+		this.dob = dob;
 		this.admin = admin;
 	}
 	
@@ -73,6 +82,15 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 
 	@Override

@@ -49,4 +49,9 @@ public class UserService {
 		return false;
 	}
 	
+	public boolean updatePassword(String newPassword, String email) {
+		dao.updatePassword(newPassword, email);
+		return true;
+	}
+	
 }

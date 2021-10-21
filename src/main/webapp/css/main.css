@@ -65,14 +65,7 @@ h2 {
 .status_message{
   padding: 25px;
   text-align: center;
-}
-
-#status_signup{
-	color: red;
-}
-
-#status_login{
-	color: black;
+  color: red;
 }
 
 h2.active {

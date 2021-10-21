@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-import com.wipro.libraryportal.entity.User;
 import com.wipro.libraryportal.service.ApplicationService;
 import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.IssueService;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.ModelMap;
 
 @ContextConfiguration(classes = {GeneralController.class})
 @ExtendWith(SpringExtension.class)
@@ -39,13 +37,7 @@ class GeneralControllerTest {
     @MockBean
     private UserService userService;
 
-    @Test
-    void testShowSignupPage() {
-        ModelMap modelMap = new ModelMap();
-        assertEquals("signup", generalController.showSignupPage(modelMap));
-        assertEquals("", ((User) modelMap.get("user")).getEmail());
-        assertEquals("", ((User) modelMap.get("user")).getPassword());
-    }
+
 
     @Test
     void testLogin() throws Exception {

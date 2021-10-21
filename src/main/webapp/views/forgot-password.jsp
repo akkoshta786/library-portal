@@ -1,5 +1,5 @@
 <%@include file="common/header.jspf" %>
-<title>SIGNUP</title>
+<title>FORGOT PASSWORD</title>
 <link rel="stylesheet" href="css/main.css">
 <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -7,12 +7,12 @@
 <body>
 
 <div class="wrapper">
-	<div class="status_message" id="status_signup">
+	<div class="status_message" id="status_forgot_password">
 			<p>${message}</p>
 	</div>
 	<div id="formContent">
-		<h3 class="active"> Sign Up </h3>
-		<form:form action="signup" method="post" modelAttribute="user">
+		<h3 class="active"> Forgot Password </h3>
+		<form:form action="forgot-password" method="post" modelAttribute="user">
 			<fieldset class="form-group">
 				<legend></legend>
 				<form:input path="email" placeholder="Email" required="required"/>
@@ -23,12 +23,12 @@
 			</fieldset>
 			<fieldset class="form-group">
 				<legend></legend>
-				<form:password path="password" placeholder="Password" required="required"/>
+				<form:password path="password" placeholder="New Password" required="required"/>
 			</fieldset>
-			<button type="submit" class="btn btn-primary">Register</button>
+			<button type="submit" class="btn btn-primary">Update Password</button>
 		</form:form>
 		<br>
-		<p> Already a user? <a href="login">Log In</a> </p>
+		<p> Back to <a href="login">Log In</a> or <a href="signup">Sign Up</a></p>
 	</div>
 </div>
 

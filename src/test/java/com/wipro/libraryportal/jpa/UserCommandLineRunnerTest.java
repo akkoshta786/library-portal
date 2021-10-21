@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import com.wipro.libraryportal.entity.Issue;
 import com.wipro.libraryportal.entity.User;
 
+import java.text.ParseException;
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class UserCommandLineRunnerTest {
     private UserDao userDao;
 
     @Test
-    void testRun() {
+    void testRun() throws ParseException {
 
 
         User user = new User();

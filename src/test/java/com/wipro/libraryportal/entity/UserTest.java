@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Date;
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class UserTest {
 
     @Test
     void testMethod2() {
-        User actualUser = new User("my@example.com", "Hello123");
+        User actualUser = new User("my@example.com", "Hello123", new Date());
         actualUser.setAdmin(true);
         actualUser.setEmail("my@example.com");
         HashSet<Issue> issueSet = new HashSet<Issue>();
@@ -45,7 +46,7 @@ class UserTest {
 
     @Test
     void testMethod3() {
-        User actualUser = new User("my@example.com", "Hello123", true);
+        User actualUser = new User("my@example.com", "Hello123", new Date(), true);
         actualUser.setAdmin(true);
         actualUser.setEmail("my@example.com");
         HashSet<Issue> issueSet = new HashSet<Issue>();

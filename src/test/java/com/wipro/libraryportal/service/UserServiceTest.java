@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,7 +43,7 @@ class UserServiceTest {
 	
 	@Test
 	void isAdminTrueTest() {
-		users.add(new User("atul.koshta@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", true));
+		users.add(new User("atul.koshta@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", new Date(), true));
 		when(userDao.findByEmail("atul.koshta@wipro.com")).thenReturn(users);
 		assertTrue(userService.isAdmin("atul.koshta@wipro.com"));
 
@@ -50,7 +51,7 @@ class UserServiceTest {
 	
 	@Test
 	void isAdminFalseTest() {
-		users.add(new User("nachiketa.kumar@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme"));
+		users.add(new User("nachiketa.kumar@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", new Date()));
 		when(userDao.findByEmail("nachiketa.kumar@wipro.com")).thenReturn(users);
 		assertFalse(userService.isAdmin("nachiketa.kumar@wipro.com"));
 
@@ -58,7 +59,7 @@ class UserServiceTest {
 	
 	@Test
 	void isValidUserTest() {
-		users.add(new User("nachiketa.kumar@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme"));
+		users.add(new User("nachiketa.kumar@wipro.com", "$2a$10$N4HmiNQfuBWu1twBWQ/fkeR2GLvsXUNotBpyzKYHnIs/00Wdguyme", new Date()));
 		when(userDao.findByEmail("nachiketa.kumar@wipro.com")).thenReturn(users);
 		assertTrue(userService.isValidUser("nachiketa.kumar@wipro.com", "pass"));
 	}
@@ -66,7 +67,7 @@ class UserServiceTest {
 	@Test
 	void registerUserTest() {
 		when(userDao.findByEmail("dummy.user@wipro.com")).thenReturn(users);
-		assertTrue(userService.registerUser(new User("dummy.user@wipro.com", "passwordhashgoeshere")));
+		assertTrue(userService.registerUser(new User("dummy.user@wipro.com", "passwordhashgoeshere", new Date())));
 	}
 
 }

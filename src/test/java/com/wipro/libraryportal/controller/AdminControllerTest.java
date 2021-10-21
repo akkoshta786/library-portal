@@ -1,15 +1,14 @@
 package com.wipro.libraryportal.controller;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.wipro.libraryportal.entity.Issue;
 import com.wipro.libraryportal.jpa.IssueDao;
 import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.IssueService;
@@ -27,6 +26,7 @@ import com.wipro.libraryportal.service.UserService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 class AdminControllerTest {
 	
 	@Autowired
@@ -47,6 +47,12 @@ class AdminControllerTest {
 	
 	@Mock
 	private IssueDao issueDao;
+	
+	@BeforeClass
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc =  MockMvcBuilders.standaloneSetup(adminController).build();
+    }
 	
 	
 	@ParameterizedTest
@@ -89,17 +95,6 @@ class AdminControllerTest {
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
-	@ParameterizedTest
-	@ValueSource(strings = "{\"email\": \"nachiketa.kumar@wipro.com\", \"isbn\": \"9781906523374\", \"duration\": \"7\"}")
-	void issueNotReturnedBook(String json) throws Exception{
-		// mocks as if user with memberId=2 already had this book
-		Mockito.when(issueService.checkBookAvailibilityWithMember(2, "9781906523374")).thenReturn(true);
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/issueBook")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-	}
 	
 	
 	@ParameterizedTest
@@ -111,17 +106,6 @@ class AdminControllerTest {
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
-	
-	@ParameterizedTest
-	@ValueSource(strings = "{\"issueId\": \"1\"}")
-	void returnBookValidIssueTest(String json) throws Exception {
-		Mockito.when(issueDao.findByIssueId(1)).thenReturn(Optional.of(new Issue(2, "9781906523374", 7)));
-		mockMvc.perform(MockMvcRequestBuilders.post("/returnBook")
-				.sessionAttr("USERNAME", "atul.koshta@wipro.com")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-	}
 	
 	@ParameterizedTest
 	@ValueSource(strings = "{\"issueId\": \"1\"}")
