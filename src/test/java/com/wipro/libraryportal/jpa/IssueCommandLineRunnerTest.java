@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 class IssueCommandLineRunnerTest {
     @Test
-    void testConstructor() {
+    void testConst1() {
 
         (new IssueCommandLineRunner()).run("Args");
     }
 
     @Test
-    void testConstructor2() {
+    void testConst2() {
 
 
         (new IssueCommandLineRunner()).run("Args");

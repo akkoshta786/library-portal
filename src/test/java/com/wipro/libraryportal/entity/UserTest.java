@@ -1,15 +1,14 @@
 package com.wipro.libraryportal.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.HashSet;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
+
     @Test
     void testMethod1() {
         User actualUser = new User();
@@ -59,6 +58,11 @@ class UserTest {
         assertEquals("Hello123", actualUser.getPassword());
         assertTrue(actualUser.isAdmin());
         assertEquals("User [email=my@example.com]", actualUser.toString());
+    }
+
+    @Test
+    void testGetIssue() {
+        assertNull((new User()).getIssues());
     }
 }
 

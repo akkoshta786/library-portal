@@ -1,7 +1,6 @@
 package com.wipro.libraryportal.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,9 +8,21 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IssueTest {
+    @Test
+    void testConstructor() {
+        Issue actualIssue = new Issue(123L, "Isbn", 1);
+
+        assertNull(actualIssue.getBook());
+        assertNull(actualIssue.getUser());
+        assertEquals(1, actualIssue.getStatus());
+        assertEquals(123L, actualIssue.getMemberId());
+        assertEquals(0L, actualIssue.getIssueId());
+        assertEquals("Isbn", actualIssue.getIsbn());
+    }
+
     @Test
     void testingConstructor1() {
         Issue actualIssue = new Issue();

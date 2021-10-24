@@ -1,9 +1,6 @@
 package com.wipro.libraryportal.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-
+import com.wipro.libraryportal.dto.UserDto;
 import com.wipro.libraryportal.service.ApplicationService;
 import com.wipro.libraryportal.service.BookService;
 import com.wipro.libraryportal.service.IssueService;
@@ -18,6 +15,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.ModelMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {GeneralController.class})
 @ExtendWith(SpringExtension.class)
@@ -36,7 +39,6 @@ class GeneralControllerTest {
 
     @MockBean
     private UserService userService;
-
 
 
     @Test
@@ -59,6 +61,8 @@ class GeneralControllerTest {
     void testShowLoginPage() {
         assertEquals("login", (new GeneralController()).showLoginPage());
     }
+
+
 
     @Test
     void testRedirectToLogin() throws Exception {
@@ -109,5 +113,14 @@ class GeneralControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("login"))
                 .andExpect(MockMvcResultMatchers.forwardedUrl("login"));
     }
-}
 
+    @Test
+    void testShowForgotPasswordPage() {
+        GeneralController generalController = new GeneralController();
+        ModelMap modelMap = new ModelMap();
+        assertEquals("forgot-password", generalController.showForgotPasswordPage(modelMap));
+        assertNull(((UserDto) modelMap.get("user")).getDob());
+        assertEquals("", ((UserDto) modelMap.get("user")).getPassword());
+        assertEquals("", ((UserDto) modelMap.get("user")).getEmail());
+    }
+}
