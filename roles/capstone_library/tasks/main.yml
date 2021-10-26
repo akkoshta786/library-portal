@@ -1,0 +1,24 @@
+---
+# tasks file for dockcat_demo2
+  - name: create directory to copy war file and docker compose file
+    file:
+      path:
+        - /usr/local/capstone
+        - /etc/capstone/conf/
+      state: directory
+      mode: 0755
+
+  - name: copying war file to /usr/local/capstone directory
+    become: true
+    copy:
+      src: /home/chandu/capstonedeployment/wars/library-portal.war
+      dest: /usr/local/capstone
+
+  - name: copying docker compose file to /etc/capstone/conf
+    become: true
+    copy:
+      src: /home/chandu/capstonedeployment/docker-compose.yaml
+      dest: /etc/capstone/conf/
+
+  - name: Deploying docker containers in docker swarm as service
+    shell: sudo docker stack deploy -c /etc/capstone/conf/docker-compose.yaml library-portal
