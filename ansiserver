@@ -1,4 +1,0 @@
-# hosts files
-[local]
-localhost ansible_connection=local
-ansitestserver ansible_host=192.168.0.105 ansible_ssh_user=ansitestserver
