@@ -1,33 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+<%@include file="common/header.jspf" %>
 <title>LOGIN</title>
-<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="css/main.css">
+<link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<div class="wrapper">
-	  <div id="formContent">
-	    <!-- Tabs Titles -->
-	    <h2 class="active"> Sign In </h2>
-	
 
-	    <form method="post">
-	      <input type="text" id="username" placeholder="username">
-	      <input type="password" id="password" placeholder="password">
-	      <input type="submit" value="Log In">
-	    </form>
-	    
-	    <h5>New User? <a href="signup">Sign up</a></h5>
-	
-	    <!-- Remind Passowrd -->
-	    <div id="formFooter">
-	      <a class="underlineHover" href="#">Forgot Password?</a>
-	    </div>
-	
-	  </div>
+	<c:if test = "${not empty sessionScope['USERNAME']}">
+		<c:redirect url="/welcome"></c:redirect>
+	</c:if>
+		
+	<div class="wrapper container">
+		<div class="status_message" id="status_login">
+			<p>${message}</p>
+		</div>
+		<div id="formContent">
+	 		<h3 class="active"> Sign In </h3>
+			<form action="login" method="post">
+				<fieldset class="form-group">
+					<legend></legend>
+					<input type="text" name="email" class="form-control-plaintext" placeholder="email" />
+				</fieldset>
+				<fieldset class="form-group">
+					<legend></legend>
+					<input type="password" name="password" class="form-control-plaintext" placeholder="password" required="required"/>
+				</fieldset>
+				<button type="submit" class="btn btn-success">Log In</button>
+			</form>
+		    <br>
+		    <p>New User? <a href="signup">Sign up</a></p>
+		
+		    
+		    <div id="formFooter">
+		      <a class="underlineHover" href="forgot-password">Forgot Password?</a>
+		    </div>
+		</div>
 	</div>
-</body>
-</html>
+<%@include file="common/footer.jspf" %>
+<script src="webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="js/common.js"></script>
