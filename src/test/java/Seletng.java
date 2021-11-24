@@ -18,8 +18,8 @@ public class Seletng {
   JavascriptExecutor js;
   @Before
   public void setUp() {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Nichketa\\Downloads\\seldriver\\chromedriver.exe");
-    System.setProperty("webdriver.gecko.driver","C:\\Users\\Nichketa\\Downloads\\geckodriver\\geckodriver.exe");
+    System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver" );
+    System.setProperty("webdriver.gecko.driver","/usr/bin/geckodriver");
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
   }
