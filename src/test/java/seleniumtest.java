@@ -16,7 +16,7 @@ public class seleniumtest {
   public void initDriver() {
 	 // String path = System.getProperty("user.dir");
 	  //System.setProperty("webdriver.chrome.driver", path + "\\src\\test\\java\\webdriver\\chromedriver.exe");
-	  System.setProperty("webdriver.chrome.driver", "C:\\Users\\Nichketa\\Downloads\\seldriver\\chromedriver.exe");
+	  System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 	  driver=new ChromeDriver();
 	  driver.manage().window().maximize();
 	  driver.get("http://localhost:9095/capstone/login");
