@@ -18,7 +18,7 @@
 			<form action="login" method="post">
 				<fieldset class="form-group">
 					<legend></legend>
-					<input type="text" name="email" class="form-control-plaintext" placeholder="email" />
+					<input type="text" name="email" class="form-control-plaintext" placeholder="EMAIL" />
 				</fieldset>
 				<fieldset class="form-group">
 					<legend></legend>
